@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('location');
-            $table->decimal('rating', 3, 2);
+            $table->string('phone');
+            $table->text('website_url');
+            $table->string('opening_hours');
             $table->foreignId('cuisine_id')->constrained('cuisines')->onDelete('cascade');
+            $table->decimal('rating', 3, 2);
             $table->text('description');
+            $table->string('image_url');
             $table->timestamps();
         });
     }
