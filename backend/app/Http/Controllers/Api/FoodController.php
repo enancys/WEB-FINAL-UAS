@@ -13,7 +13,7 @@ class FoodController extends Controller
      */
     public function index()
     {
-        $food = Food::all();
+        $food = Food::with('restaurant', 'cuisine')->get();
         return response()->json($food, 200);
     }
 
@@ -25,8 +25,16 @@ class FoodController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
-            'price' => 'required|numeric'
+            'price' => 'required|numeric',
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'restaurant_id' => 'required|integer|exists:restaurants,id',
+            'cuisine_id' => 'required|integer|exists:cuisines,id'
         ]);
+
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('foods', 'public');
+            $validated['image_url'] = '/storage/' . $path;
+        }
 
         $food = Food::create($validated);
         return response()->json($food,201);
@@ -49,8 +57,16 @@ class FoodController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
-            'price' => 'required|numeric'
+            'price' => 'required|numeric',
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'restaurant_id' => 'required|integer|exists:restaurants,id',
+            'cuisine_id' => 'required|integer|exists:cuisines,id'
         ]);
+
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('foods', 'public');
+            $validated['image_url'] = '/storage/' . $path;
+        }
 
         $food = Food::findOrFail($id);
         $food->update($validated);

@@ -15,7 +15,8 @@ class Rating extends Model
         'food_id',
         'restaurant_id',
         'rating',
-        'review'
+        'review',
+        'image_url'
     ];
 
     public function user() {

@@ -31,8 +31,13 @@ class RestaurantController extends Controller
             'cuisine_id' => 'nullable|integer|exists:cuisines,id',
             'rating' => 'nullable|numeric',
             'description' => 'nullable|string',
-            "image_url" => "nullable|string"
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('restaurants', 'public');
+            $validated['image_url'] = '/storage/' . $path;
+        }
 
         $restaurant = Restaurant::create($validated);
         return response()->json($restaurant, 201);
@@ -61,8 +66,13 @@ class RestaurantController extends Controller
             'cuisine_id' => 'nullable|integer|exists:cuisines,id',
             'rating' => 'nullable|numeric',
             'description' => 'nullable|string',
-            "image_url" => "nullable|string"
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('restaurants', 'public');
+            $validated['image_url'] = '/storage/' . $path;
+        }
 
         $restaurant = Restaurant::findOrFail($id);
         $restaurant->update($validated);

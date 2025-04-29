@@ -24,9 +24,9 @@ class Food extends Model
         return $this->belongsToMany(Ingredient::class, 'food_ingredients')->withPivot('quantity', 'unit');
     }
 
-    public function restaurant(){
-        return $this->belongsToMany(Restaurant::class, 'restaurant_foods', 'food_id', 'restaurant_id');
-    }
+    // public function restaurant(){
+    //     return $this->belongsToMany(Restaurant::class, 'restaurant_foods', 'food_id', 'restaurant_id');
+    // }
 
     // public function tags() {
     //     return $this->belongsToMany(Tag::class, 'foods_tags');
@@ -34,6 +34,11 @@ class Food extends Model
 
     public function cuisine() {
         return $this->belongsTo(Cuisine::class);
+    }
+
+    public function restaurant() {
+        return $this->belongsTo(Restaurant::class);
+
     }
 
     public function rating() {

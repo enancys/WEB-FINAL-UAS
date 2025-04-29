@@ -18,11 +18,14 @@ use App\Http\Controllers\Api\UserFavoriteCategoryController;
 use App\Http\Controllers\Api\UserFavoriteCuisineController;
 use App\Http\Controllers\Api\UserFavoriteIngredientController;
 use App\Http\Controllers\Api\UserPreferenceController;
+use App\Http\Controllers\AuthController;
+use App\Models\User;
 use App\Models\UserDietaryResctriction;
 use App\Models\UserFavoriteCategory;
 use App\Models\UserFavoriteCuisine;
 use App\Models\UserPreference;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,9 +39,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
+    return response()->json([
+        'user' => $request->user()
+    ]);
 });
+
+
+// Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', function (Request $request) {
+    $validated = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    $user = User::where('email', $validated['email'])->first();
+
+    if (!$user || !Hash::check($validated['password'], $user->password)) {
+        return response()->json(['message' => 'Invalid credentials'], 401);
+    }
+
+    return response()->json([
+        'token' => $user->createToken('YourAppName')->plainTextToken,
+        'user' => $user
+    ]);
+});
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('cuisines', CuisineController::class);

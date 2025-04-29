@@ -27,8 +27,16 @@ class RatingController extends Controller
             'food_id' => 'required|integer|exists:foods,id',
             'restaurant_id' => 'required|integer|exists:restaurants,id',
             'rating' => 'required|numeric',
-            'review' => 'nullable|string'
+            'review' => 'nullable|string',
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('ratings', 'public');
+            $validated['image_url'] = '/storage/' . $path;
+        }
+
         $rating = Rating::create($validated);
         return response()->json($rating, 201);
     }
@@ -52,8 +60,15 @@ class RatingController extends Controller
             'food_id' => 'required|integer|exists:foods,id',
             'restaurant_id' => 'required|integer|exists:restaurants,id',
             'rating' => 'required|numeric',
-            'review' => 'nullable|string'
+            'review' => 'nullable|string',
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('ratings', 'public');
+            $validated['image_url'] = '/storage/' . $path;
+        }
+
         $rating = Rating::findOrFail($id);
         $rating->update($validated);
         return response()->json($rating, 200);
