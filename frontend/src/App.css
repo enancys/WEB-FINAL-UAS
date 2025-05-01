@@ -36,3 +36,69 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+/* Restaurant Card */
+.card {
+  border-radius: 1rem;
+  border: none;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+}
+
+.card-img-top {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.card-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 0.4rem;
+}
+
+.card-text strong {
+  color: #000;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+
+.horizontal-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}
+
+
+
+.scroll-container {
+  scroll-behavior: smooth;
+  padding-bottom: 1rem;
+}
+
+
+
+/* END */

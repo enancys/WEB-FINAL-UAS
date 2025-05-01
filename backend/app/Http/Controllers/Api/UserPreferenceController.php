@@ -60,4 +60,21 @@ class UserPreferenceController extends Controller
         $userPreference->delete();
         return response()->json(['message' => 'UserPreference berhasil Dihapus']);
     }
+
+    public function getByUser($userId)
+    {
+        $preferences = UserPreference::where('user_id', $userId)->first();
+
+        if (!$preferences) {
+            $preferences = UserPreference::create([
+                'user_id' => $userId,
+            ]);
+            return response()->json([
+                'message' => 'User preferences not found, a new entry has been created.',
+                'preferences' => $preferences
+            ], 201); 
+        }
+
+        return response()->json($preferences);
+    }
 }

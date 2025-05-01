@@ -82,6 +82,7 @@ Route::apiResource('restrictions', RestrictionController::class);
 Route::apiResource('tags', TagController::class);
 Route::apiResource('users', UserController::class);
 Route::apiResource('user_preferences', UserPreferenceController::class);
+Route::get('/user_preferences/by_user/{userId}', [UserPreferenceController::class, 'getByUser']);
 Route::apiResource('user_dietary_resctrictions', UserDietaryResctrictionController::class);
 Route::apiResource('user_disliked_ingredients', UserDislikedIngredientController::class);
 Route::apiResource('user_favorite_category', UserFavoriteCategoryController::class);

@@ -12,18 +12,27 @@ const ProfilePreferences = () => {
     const [disIngredients, setDisIngredients] = useState([]);
     const [restrictions, setRestrictions] = useState([]);
 
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [selectedCuisine, setSelectedCuisine] = useState('');
-    const [selectedFavIngredients, setSelectedFavIngredients] = useState('');
-    const [selectedDisIngredients, setSelectedDisIngredients] = useState('');
-    const [selectedRestriction, setSelectedRestriction] = useState('');
+    // const [selectedCategory, setSelectedCategory] = useState('');
+    // const [selectedCuisine, setSelectedCuisine] = useState('');
+    // const [selectedFavIngredients, setSelectedFavIngredients] = useState('');
+    // const [selectedDisIngredients, setSelectedDisIngredients] = useState('');
+    // const [selectedRestriction, setSelectedRestriction] = useState('');
+
+    const [selectedCategory, setSelectedCategory] = useState([]);
+    const [selectedCuisine, setSelectedCuisine] = useState([]);
+    const [selectedFavIngredients, setSelectedFavIngredients] = useState([]);
+    const [selectedDisIngredients, setSelectedDisIngredients] = useState([]);
+    const [selectedRestriction, setSelectedRestriction] = useState([]);
+
+
+    
 
     const userId = localStorage.getItem('id');
 
     useEffect(() => {
         const fetchPreferences = async () => {
             try {
-                const [catRes, cuiRes, ingFavRes, ingDisRes, resRes] = await Promise.all([
+                const [catRes, cuiRes, favRes, disRes, resRes] = await Promise.all([
                 axios.get('http://127.0.0.1:8000/api/categories'),
                 axios.get('http://127.0.0.1:8000/api/cuisines'),
                 axios.get('http://127.0.0.1:8000/api/ingredients'),
@@ -31,11 +40,11 @@ const ProfilePreferences = () => {
                 axios.get('http://127.0.0.1:8000/api/restrictions'),
                 ]);
         
-                console.log(ingFavRes.data); 
+                console.log(favRes.data); 
                 setCategories(catRes.data);
                 setCuisines(cuiRes.data);
-                setFavIngredients(ingFavRes.data);
-                setDisIngredients(ingDisRes.data);
+                setFavIngredients(favRes.data);
+                setDisIngredients(disRes.data);
                 setRestrictions(resRes.data);
             } catch (err) {
                 console.error('Gagal mengambil data preferensi:', err);
@@ -44,8 +53,10 @@ const ProfilePreferences = () => {
         
         fetchPreferences();
     }, []);
+    const navigate = useNavigate();
 
     const handleSavePreferences = async () => {
+
         try {
             if (!userId) {
                 alert('User ID tidak ditemukan. Silakan login ulang.');
@@ -69,42 +80,83 @@ const ProfilePreferences = () => {
                 restriction_id: selectedRestriction,
             });
     
-            if (selectedCategory) {
-                await axios.post('http://127.0.0.1:8000/api/user_favorite_categories', {
-                    user_preference_id: preferenceId,
-                    category_id: selectedCategory,
-                });
-            }
-            if (selectedCuisine) {
-                await axios.post('http://127.0.0.1:8000/api/user_favorite_cuisines', {
-                    user_preference_id: preferenceId,
-                    cuisine_id: selectedCuisine,
-                });
-            }
-    
-            if (selectedFavIngredients) {
-                await axios.post('http://127.0.0.1:8000/api/fav_category_ingredients', {
-                    user_preference_id: preferenceId,
-                    ingredient_id: selectedFavIngredients,
-                });
-
+            if (selectedCategory.length > 0) {
+                for (const catId of selectedCategory) {
+                    await axios.post('http://127.0.0.1:8000/api/user_favorite_category', {
+                        user_preference_id: preferenceId,
+                        category_id: catId,
+                    });
+                }
             }
 
-            if (selectedDisIngredients) {
-                await axios.post('http://127.0.0.1:8000/api/user_disliked_ingredients', {
-                    user_preference_id: preferenceId,
-                    ingredient_id: selectedDisIngredients,
-                });
+            if (selectedCuisine.length > 0) {
+                for (const cuiId of selectedCuisine) {
+                    await axios.post('http://127.0.0.1:8000/api/user_favorite_cuisines', {
+                        user_preference_id: preferenceId,
+                        cuisine_id: cuiId,
+                    });
+                }
             }
+            
+            if (selectedFavIngredients.length > 0) {
+                for (const favIngId of selectedFavIngredients) {
+                    await axios.post('http://127.0.0.1:8000/api/user_favorite_ingredients', {
+                        user_preference_id: preferenceId,
+                        ingredient_id: favIngId,
+                    });
+                }
+            }
+
+            if (selectedDisIngredients.length > 0) {
+                for(const disIngId of selectedDisIngredients) {
+                    await axios.post('http://127.0.0.1:8000/api/user_disliked_ingredients', {
+                        user_preference_id: preferenceId,
+                        ingredient_id: disIngId,
+                    });
+                }
+            }
+            
+            if (selectedRestriction.length > 0) {
+                for(const ResId of selectedRestriction) {
+                    await axios.post('http://127.0.0.1:8000/api/user_dietary_resctrictions', { 
+                        user_preference_id: preferenceId,
+                        restriction_id: ResId,
+                    });
+                }
+            }
+
+            
+            // if (selectedCuisine) {
+            //     await axios.post('http://127.0.0.1:8000/api/user_favorite_cuisines', {
+            //         user_preference_id: preferenceId,
+            //         cuisine_id: selectedCuisine,
+            //     });
+            // }
     
-            if (selectedRestriction) {
-                await axios.post('http://127.0.0.1:8000/api/user_dietary_resctrictions', { 
-                    user_preference_id: preferenceId,
-                    restriction_id: selectedRestriction,
-                });
-            }
+            // if (selectedFavIngredients) {
+            //     await axios.post('http://127.0.0.1:8000/api/user_favorite_ingredients', {
+            //         user_preference_id: preferenceId,
+            //         ingredient_id: selectedFavIngredients,
+            //     });
+
+            // }
+
+            // if (selectedDisIngredients) {
+            //     await axios.post('http://127.0.0.1:8000/api/user_disliked_ingredients', {
+            //         user_preference_id: preferenceId,
+            //         ingredient_id: selectedDisIngredients,
+            //     });
+            // }
+    
+            // if (selectedRestriction) {
+            //     await axios.post('http://127.0.0.1:8000/api/user_dietary_resctrictions', { 
+            //         user_preference_id: preferenceId,
+            //         restriction_id: selectedRestriction,
+            //     });
+            // }
     
             alert('Preferensi berhasil disimpan!');
+            navigate('/foods'); 
         } catch (error) {
             console.error('Gagal menyimpan preferensi:', error.response?.data || error.message);
             alert('Terjadi kesalahan saat menyimpan preferensi.');
@@ -119,79 +171,167 @@ const ProfilePreferences = () => {
             <div className="container mt-5 mb-5">
             <h2>Pengaturan Preferensi Makanan</h2>
             <form>
+                {/* Category */}
                 <div className="form-group">
-                <label htmlFor="category">Kategori</label>
-                <select
-                    className="form-control"
-                    id="categories"
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                >
-                    <option value="">-- Pilih Kategori --</option>
+                    <label htmlFor="category">Kategori</label>
+                    <select
+                        className="form-control"
+                        id="categories"
+                        multiple
+                        value={selectedCategory}
+                        onChange={(e) => {
+                            const selected = Array.from(e.target.selectedOptions, opt => opt.value);
+                            setSelectedCategory(selected);
+                        }}
+                    >
                     {categories.map((item) => (
-                    <option key={item.id} value={item.id}>{item.name}</option>
+                        <option key={item.id} value={item.id}>
+                        {item.name}
+                        </option>
                     ))}
-                </select>
+                    </select>
+                    <div className='mt-2'>
+                        <strong>Yang Dipilih:</strong>
+                        {selectedCategory.length === 0 ?
+                            <em>Tidak ada yang dipilih</em> :
+                            selectedCategory.map((id) => {
+                                const category = categories.find(cat => cat.id.toString() === id);
+                                return category ? (
+                                    <span key={id} className='badge bg-secondary me-1'>{category.name}</span>
+                                ) : null;
+                            })
+                        }
+                    </div>
                 </div>
 
+                {/* Cuisines */}
                 <div className="form-group">
-                <label htmlFor="cuisine">Jenis Masakan (Cuisine)</label>
-                <select
-                    className="form-control"
-                    id="cuisines"
-                    value={selectedCuisine}
-                    onChange={(e) => setSelectedCuisine(e.target.value)}
-                >
-                    <option value="">-- Pilih Masakan --</option>
+                    <label htmlFor="cuisine">Jenis Masakan (Cuisine)</label>
+                    <select
+                        className="form-control"
+                        id="cuisines"
+                        multiple
+                        value={selectedCuisine}
+                        onChange={(e) => {
+
+                            const selected = Array.from(e.target.selectedOptions, opt => opt.value);
+                            setSelectedCuisine(selected);
+
+                        }}
+                    >
                     {cuisines.map((item) => (
-                    <option key={item.id} value={item.id}>{item.name}</option>
+                        <option key={item.id} value={item.id}>
+                            {item.name}
+                        </option>
                     ))}
-                </select>
+                    </select>
+                    <div className='mt-2'>
+                        <strong>Yang Dipilih:</strong>
+                        {selectedCuisine.length === 0 ?
+                            <em>Tidak ada yang dipilih</em> :
+                            selectedCuisine.map((id) => {
+                                const cuisine =  cuisines.find(cui => cui.id.toString() === id);
+                                return cuisine ? (
+                                    <span key={id} className='badge bg-secondary me-1'>{cuisine.name}</span>
+                                ) : null                        
+                            })}
+                    </div>
                 </div>
 
+                {/* Fav Ingredients */}
                 <div className="form-group">
-                <label htmlFor="ingredient">Bahan Makanan Favorit</label>
-                <select
-                    className="form-control"
-                    id="favIngredients"
-                    value={selectedFavIngredients}
-                    onChange={(e) => setSelectedFavIngredients(e.target.value)}
-                >
-                    <option value="">-- Pilih Bahan --</option>
+                    <label htmlFor="ingredient">Bahan Makanan Favorit</label>
+                    <select
+                        className="form-control"
+                        id="favIngredients"
+                        multiple   
+                        value={selectedFavIngredients}
+                        onChange={(e) => {
+                            const selected = Array.from(e.target.selectedOptions, opt => opt.value);
+                            setSelectedFavIngredients(selected);
+                        }}
+                    >
                     {favIngredients.map((item) => (
-                    <option key={item.id} value={item.id}>{item.name}</option>
+                        <option key={item.id} value={item.id}>
+                            {item.name}
+                        </option>
                     ))}
-                </select>
+                    </select>
+                    <div className='mt-2'>
+                        <strong>Yang Dipilih:</strong>
+                        {selectedFavIngredients.length === 0 ?
+                            <em>Tidak ada yang dipilih</em> :
+                            selectedFavIngredients.map((id) => {
+                                const selectedIngredient  =  favIngredients.find(favIng => favIng.id.toString() === id);
+                                return selectedIngredient ? (
+                                    <span key={id} className='badge bg-secondary me-1'>{selectedIngredient.name}</span>
+                                ) : null                        
+                            })}
+                    </div>
                 </div>
 
+                {/* Disliked Ingredients */}
                 <div className="form-group">
                 <label htmlFor="ingredient">Bahan Makanan Dihindari</label>
                 <select
                     className="form-control"
                     id="disIngredients"
+                    multiple
                     value={selectedDisIngredients}
-                    onChange={(e) => setSelectedDisIngredients(e.target.value)}
+                    onChange={(e) => {
+                        const selected = Array.from(e.target.selectedOptions, opt => opt.value);
+                        setSelectedDisIngredients(selected);
+                    }}
                 >
-                    <option value="">-- Pilih Bahan --</option>
-                    {disIngredients.map((item) => (
-                    <option key={item.id} value={item.id}>{item.name}</option>
-                    ))}
+                {disIngredients.map((item) => (
+                    <option key={item.id} value={item.id}>
+                        {item.name}
+                    </option>
+                ))}
                 </select>
+                <div className='mt-2'>
+                    <strong>Yang Dipilih:</strong>
+                    {selectedDisIngredients.length === 0 ?
+                            <em>Tidak ada yang dipilih</em> :
+                            selectedDisIngredients.map((id) => {
+                                const selectedIngredient  =  disIngredients.find(disIng => disIng.id.toString() === id);
+                                return selectedIngredient ? (
+                                    <span key={id} className='badge bg-secondary me-1'>{selectedIngredient.name}</span>
+                                ) : null                        
+                            })}
+                    </div>
                 </div>
-
+                
+                {/* Resctrictions */}
                 <div className="form-group">
                 <label htmlFor="restriction">Pantangan / Restriksi</label>
                 <select
                     className="form-control"
                     id="restrictions"
+                    multiple
                     value={selectedRestriction}
-                    onChange={(e) => setSelectedRestriction(e.target.value)}
+                    onChange={(e) => {
+                        const selected = Array.from(e.target.selectedOptions, opt => opt.value);
+                        setSelectedRestriction(selected);
+                    }}
                 >
-                    <option value="">-- Pilih Restriksi --</option>
-                    {restrictions.map((item) => (
-                    <option key={item.id} value={item.id}>{item.name}</option>
-                    ))}
+                {restrictions.map((item) => (
+                    <option key={item.id} value={item.id}>
+                        {item.name}
+                    </option>
+                ))}
                 </select>
+                    <div className='mt-2'>
+                        <strong>Yang Dipilih:</strong>
+                        {selectedRestriction.length === 0 ?
+                            <em>Tidak ada yang dipilih</em> :
+                            selectedRestriction.map((id) => {
+                                const restriction  =  restrictions.find(resc => resc.id.toString() === id);
+                                return restriction ? (
+                                    <span key={id} className='badge bg-secondary me-1'>{restriction.name}</span>
+                                ) : null                        
+                            })}
+                    </div>
                 </div>
             </form>
             <button className="btn btn-primary mt-3" onClick={handleSavePreferences}>

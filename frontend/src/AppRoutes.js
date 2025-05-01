@@ -10,6 +10,7 @@ import { AuthContext } from './contexts/AuthContext'; // Import AuthContext
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext'; // Make sure to import AuthProvider
 import ProfilePreferences from './pages/user/ProfilePreferences.js';
+import RestaurantDetail from './components/user/Restaurant/RestaurantDetail.js';
 
 const AppRoutes = () => {
   return (
@@ -38,9 +39,11 @@ const AppRoutes = () => {
           }
         />
 
-        {/* Landing page (public route) */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/profilPreference" element={<ProfilePreferences/>} />
+        <Route path="/restaurant/:id" element={<RestaurantDetail />} />
+        <Route path="/foods" element={<RestaurantDetail />} />
+
       </Routes>
     </AuthProvider>
   );

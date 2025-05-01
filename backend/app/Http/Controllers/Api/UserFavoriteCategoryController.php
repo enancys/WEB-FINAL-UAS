@@ -61,4 +61,6 @@ class UserFavoriteCategoryController extends Controller
         $userFavoriteCategory->delete();
         return response()->json(['message' => 'User Favorite Category Berhasil Dihapus', 200]);
     }
+
+    
 }
