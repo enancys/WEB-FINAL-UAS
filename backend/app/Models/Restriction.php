@@ -17,4 +17,8 @@ class Restriction extends Model
     public function userDietaryRestriction() {
         return $this->belongsToMany(User::class, 'user_dietary_restrictions');
     }
+
+    public function ingredients() {
+        return $this->belongsToMany(Ingredient::class, 'ingredient_restrictions');
+    }
 }

@@ -45,9 +45,11 @@ function ComponentSideBar() {
           <div className="bg-white py-2 collapse-inner rounded">
             <NavLink to="/admin/user" className="collapse-item">User</NavLink>
             <NavLink to="/admin/categories" className="collapse-item">Categories</NavLink>
+            <NavLink to="/admin/category_food" className="collapse-item">Category Foods</NavLink>
             <NavLink to="/admin/cuisines" className="collapse-item">Cuisines</NavLink>
-            <NavLink to="/admin/foods" className="collapse-item">Foods</NavLink>
+            <NavLink to="/admin/cuisine_food" className="collapse-item">Cuisines Food</NavLink>
             <NavLink to="/admin/restaurants" className="collapse-item">Restaurants</NavLink>
+            <NavLink to="/admin/foods" className="collapse-item">Foods</NavLink>
             <NavLink to="/admin/ingredients" className="collapse-item">Ingredients</NavLink>
             <NavLink to="/admin/food_ingredients" className="collapse-item">Food ingredients</NavLink>
             <NavLink to="/admin/restaurant_foods" className="collapse-item">Retaurant Foods</NavLink>

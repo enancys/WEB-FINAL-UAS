@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Food;
 use App\Models\UserFavoriteIngredient;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Empty_;
 
 class UserFavoriteIngredientController extends Controller
 {
@@ -63,4 +65,5 @@ class UserFavoriteIngredientController extends Controller
         $userFavoriteIngredient->delete();
         return response()->json(['mesaage' => 'User Favorite Ingredient Berhasil Dihapus', 200]);
     }
+
 }

@@ -17,4 +17,8 @@ class Category extends Model
     public function userFavoriteCategory() {
         return $this->belongsToMany(User::class, 'user_favorite_categories');
     }
+
+    public function food() {
+        return $this->belongsToMany(Food::class);
+    }
 }

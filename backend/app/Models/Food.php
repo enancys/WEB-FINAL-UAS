@@ -20,7 +20,7 @@ class Food extends Model
         'cuisine_id'
     ];
 
-    public function ingredient() {
+    public function ingredients() {
         return $this->belongsToMany(Ingredient::class, 'food_ingredients')->withPivot('quantity', 'unit');
     }
 
@@ -54,4 +54,10 @@ class Food extends Model
             'tag_id'
         );
     }
+
+    public function category() {
+        return $this->belongsToMany(Category::class);
+    }
+    
+
 }

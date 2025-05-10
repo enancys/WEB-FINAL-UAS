@@ -17,7 +17,7 @@ const RestaurantCard = ({ restaurant }) => {
                     src={`http://localhost:8000${restaurant.image_url}`}
                     className="card-img-top"
                     alt={restaurant.name}
-                    style={{ height: '200px', objectFit: 'cover' }}
+                    style={{ height: '200px', objectFit: 'fit' }}
                 />
                             
                 <div className="card-body d-flex flex-column">

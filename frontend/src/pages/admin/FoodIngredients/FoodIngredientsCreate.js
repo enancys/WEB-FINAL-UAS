@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
@@ -10,6 +10,8 @@ const FoodIngredientsCreate = () => {
         quantity: "",
         unit: "",
     });
+    const [foods, setFoods] = useState([]);
+    const [ingredients, setIngredients] = useState([]);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
 
@@ -17,6 +19,21 @@ const FoodIngredientsCreate = () => {
         const { name, value } = event.target;
         setFood_ingredientsData({...food_ingredientsData, [name]: value});
     };
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/foods')
+        .then((resFood) => {
+            setFoods(resFood.data);
+            console.log('Respon data foods ', resFood.data);
+        })
+        .catch((erorr) => console.log("gagal Memuat Data Foods", erorr));
+
+        axios.get('http://127.0.0.1:8000/api/ingredients')
+        .then((resIngredient) => setIngredients(resIngredient.data))
+        .catch((erorr) => console.log("Gagal memuat data ingredient", erorr));
+    }, []);
+
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -45,23 +62,35 @@ const FoodIngredientsCreate = () => {
                     {error && <div className="alert alert-danger">{error}</div>}
                     {successMessage && <div className="alert alert-success">{successMessage}</div>}
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label>Food_id:</label>
-                            <input type="text"
+                        <div className="form-group"> 
+                            <label>Food:</label>
+                            <select
                                 name="food_id"
                                 value={food_ingredientsData.food_id}
                                 onChange={handleInputChange}
                                 className="form-control"
-                                required />
+                                required
+                            >
+                                <option value="">Pilih Makanan</option>
+                                {foods.map(food => (
+                                    <option key={food.id} value={food.id}>{food.name}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="form-group">
-                            <label>Ingredient_id:</label>
-                            <input type="text"
+                            <label>Ingredient:</label>
+                            <select
                                 name="ingredient_id"
                                 value={food_ingredientsData.ingredient_id}
                                 onChange={handleInputChange}
                                 className="form-control"
-                                required />
+                                required
+                            >
+                                <option value="">Pilih Bahan</option>
+                                {ingredients.map(ingredient => (
+                                    <option key={ingredient.id} value={ingredient.id}>{ingredient.name}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="form-group">
                             <label>Quantity:</label>
@@ -75,15 +104,16 @@ const FoodIngredientsCreate = () => {
                                 required
                             />
                         </div>
-
                         <div className="form-group">
-                            <label>Unit :</label>
-                            <input type="text"
+                            <label>Unit:</label>
+                            <input
+                                type="text"
                                 name="unit"
                                 value={food_ingredientsData.unit}
                                 onChange={handleInputChange}
                                 className="form-control"
-                                required/>
+                                required
+                            />
                         </div>
                         <button type="submit" className="btn btn-success">Submit</button>
                     </form>

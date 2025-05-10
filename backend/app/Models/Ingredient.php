@@ -18,6 +18,10 @@ class Ingredient extends Model
     public function food() {
         return $this->belongsToMany(Food::class, 'food_ingredients');
     }
+
+    public function restriction() {
+        return $this->belongsToMany(Restriction::class, 'ingredient_restrictions');
+    }
     public function userDietaryResctriction() {
         return $this->belongsToMany(User::class, 'user_dietary_restrictions');
     }

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CategoryFoodController;
 use App\Http\Controllers\Api\CuisineController;
+use App\Http\Controllers\Api\CuisineFoodController;
 use App\Http\Controllers\Api\FoodController;
 use App\Http\Controllers\Api\FoodIngredientController;
 use App\Http\Controllers\Api\FoodTagController;
@@ -43,8 +45,14 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
+    $user = $request->user();
     return response()->json([
-        'user' => $request->user()
+        'user' => [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'user_preference_id' => $user->userPreference?->id, 
+        ]
     ]);
 });
 
@@ -70,7 +78,9 @@ Route::post('/login', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::apiResource('categories', CategoryController::class);
+Route::apiResource('category_food', CategoryFoodController::class);
 Route::apiResource('cuisines', CuisineController::class);
+Route::apiResource('cuisine_food', CuisineFoodController::class);
 Route::apiResource('foods', FoodController::class);
 Route::apiResource('food_ingredients', FoodIngredientController::class);
 Route::apiResource('food_tags', FoodTagController::class);
@@ -88,3 +98,4 @@ Route::apiResource('user_disliked_ingredients', UserDislikedIngredientController
 Route::apiResource('user_favorite_category', UserFavoriteCategoryController::class);
 Route::apiResource('user_favorite_cuisines', UserFavoriteCuisineController::class);
 Route::apiResource('user_favorite_ingredients', UserFavoriteIngredientController::class);
+Route::get('recomendation/{id}', [FoodController::class, 'getRecomendation']);

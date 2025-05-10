@@ -15,9 +15,15 @@ class UserPreference extends Model
         'user_id'
     ];
 
-    public function getByUser($user_id)
+public function getByUser($user_id)
 {
-    $preference = UserPreference::where('user_id', $user_id)->first();
+    $preference = UserPreference::with([
+        'userFavoriteCategories', 
+        'userFavoriteIngredient', 
+        'userDietaryRestriction', 
+        'userDislikedIngredient', 
+        'userFavoriteCuisine'
+    ])->where('user_id', $user_id)->first();
 
     if (!$preference) {
         return response()->json(['message' => 'User preference not found'], 404);
@@ -25,6 +31,7 @@ class UserPreference extends Model
 
     return response()->json($preference);
 }
+
 
 
     public function user() {

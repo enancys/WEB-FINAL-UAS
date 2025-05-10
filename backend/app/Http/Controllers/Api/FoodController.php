@@ -3,7 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Cuisine;
 use App\Models\Food;
+use App\Models\Ingredient;
+use App\Models\Restriction;
+use App\Models\UserDietaryResctriction;
+use App\Models\UserDislikedIngredient;
+use App\Models\UserFavoriteCategory;
+use App\Models\UserFavoriteCuisine;
+use App\Models\UserFavoriteIngredient;
+use App\Models\UserPreference;
 use Illuminate\Http\Request;
 
 class FoodController extends Controller
@@ -82,4 +92,70 @@ class FoodController extends Controller
         $food->delete();
         return response()->json(['message' => 'Food berhasil dihapus'], 200);
     }
+
+public function getRecomendation(string $id) {
+    // Ambil ID
+    $favIngredientIds = UserFavoriteIngredient::where('user_preference_id', $id)->pluck('ingredient_id');
+    $disIngredientIds = UserDislikedIngredient::where('user_preference_id', $id)->pluck('ingredient_id');
+    $favCategoryIds = UserFavoriteCategory::where('user_preference_id', $id)->pluck('category_id');
+    $favCuisineIds = UserFavoriteCuisine::where('user_preference_id', $id)->pluck('cuisine_id');
+    $dieteryRestrictions = UserDietaryResctriction::where('user_preference_id', $id)->pluck('restriction_id');
+
+    // Ambil nama berdasarkan ID
+    $favIngredients = Ingredient::whereIn('id', $favIngredientIds)->pluck('name');
+    $disIngredients = Ingredient::whereIn('id', $disIngredientIds)->pluck('name');
+    $favCategories = Category::whereIn('id', $favCategoryIds)->pluck('name');
+    $favCuisines = Cuisine::whereIn('id', $favCuisineIds)->pluck('name');
+
+    // Ingredient yang dilarang dari dietary restriction
+    $ingredientRestrictions = Restriction::whereIn('id', $dieteryRestrictions)
+        ->with('ingredients')
+        ->get()
+        ->pluck('ingredients')
+        ->flatten()
+        ->unique('id');
+
+    $restrictedIngredientNames = $ingredientRestrictions->pluck('name');
+    $restrictedIngredientIds = $ingredientRestrictions->pluck('id')->toArray();
+
+    // Query makanan dengan filter
+    $recomenFoods = Food::with('restaurant', 'cuisine', 'ingredients', 'category')
+        ->when($favIngredientIds->isNotEmpty(), function($query) use ($favIngredientIds) {
+            $query->whereHas('ingredients', function ($q) use ($favIngredientIds) {
+                $q->whereIn('ingredients.id', $favIngredientIds);
+            });
+        })
+        ->when($favCuisineIds->isNotEmpty(), function ($query) use ($favCuisineIds) {
+            $query->whereHas('cuisine', function($q) use ($favCuisineIds) {
+                $q->whereIn('cuisines.id', $favCuisineIds);
+            });
+        })
+        ->when($favCategoryIds->isNotEmpty(), function($query) use ($favCategoryIds) {
+            $query->whereHas('category', function ($q) use ($favCategoryIds) {
+                $q->whereIn('categories.id', $favCategoryIds);
+            });
+        })
+        ->when($disIngredientIds->isNotEmpty(), function($query) use ($disIngredientIds) {
+            $query->whereDoesntHave('ingredients', function($q) use ($disIngredientIds) {
+                $q->whereIn('ingredients.id', $disIngredientIds);
+            });
+        })
+        ->when(!empty($restrictedIngredientIds), function($query) use ($restrictedIngredientIds) {
+            $query->whereDoesntHave('ingredients', function ($q) use ($restrictedIngredientIds) {
+                $q->whereIn('ingredients.id', $restrictedIngredientIds);
+            });
+        })
+        ->get();
+
+    // Return JSON yang lengkap
+    return response()->json([
+        'user_fav_ingredients' => $favIngredients,
+        'user_disliked_ingredients' => $disIngredients,
+        'ingredient_restrictions' => $restrictedIngredientNames,
+        'user_fav_categories' => $favCategories,
+        'user_fav_cuisines' => $favCuisines,
+        'recommendations' => $recomenFoods,
+    ]);
+}
+
 }

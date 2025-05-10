@@ -21,6 +21,9 @@ import UserDislikedIngredientsPage from "./pages/admin/UserDislikedIngredients/U
 import UserFavoriteCuisinesPage from "./pages/admin/UserFavoriteCuisines/UserFavoriteCuisinesPage.js"
 import UserDietaryRestrictionsPage from "./pages/admin/UserDietaryRestrictions/UserDietrayRestrictionsPage.js"
 import UserFavoriteCategoriesPage from "./pages/admin/UserFavoriteCategory/UserFavoriteCategoriesPage.js"
+import CategoryFoodsIndex from "./pages/admin/CategoryFoods/CategoryFoodsIndex.js";
+import CategoryFoodsPage from "./pages/admin/CategoryFoods/CategoryFoodsPage.js";
+import CuisineFoodsPage from "./pages/admin/CuisineFoods/CuisineFoodsPage.js";
 
 
 
@@ -33,6 +36,14 @@ const routesConfig = [
     { path: "categories", component: CategoriesPage.CategoriesIndex},
     { path: "categories/create", component: CategoriesPage.CategoriesCreate },
     { path: "categories/update/:id", component: CategoriesPage.CategoriesUpdate},
+
+    { path: "category_food", component: CategoryFoodsPage.CategoryFoodsIndex},
+    { path: "category_food/create", component: CategoryFoodsPage.CategoryFoodsCreate },
+    { path: "category_food/update/:id", component: CategoryFoodsPage.CategoryFoodsUpdate},
+
+    { path: "cuisine_food", component: CuisineFoodsPage.CuisineFoodsIndex},
+    { path: "cuisine_food/create", component: CuisineFoodsPage.CuisineFoodsCreate },
+    { path: "cuisine_food/update/:id", component: CuisineFoodsPage.CuisineFoodsUpdate},
 
     { path: "cuisines", component: CuisinesPage.CuisinesIndex },
     { path: "cuisines/create", component: CuisinesPage.CuisinesCreate },

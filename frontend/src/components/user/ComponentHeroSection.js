@@ -12,7 +12,7 @@ const ComponentHeroSection = () => {
               <a href="/register" className="btn btn-dark btn-lg rounded-pill px-4">Daftar Sekarang</a>
             </div>
             <div className="col-md-6 text-center">
-            <img src="/img/hero-img.png" alt="Hero" className="img-fluid hero-image" />
+            <img src="/img/hero-images.png" alt="Hero" className="img-fluid hero-image" />
             </div>
           </div>
         </div>
