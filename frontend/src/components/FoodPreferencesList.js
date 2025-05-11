@@ -5,7 +5,7 @@ import ComponentNavbar from "./user/ComponentNavbar";
 import ComponentFooter from "./user/ComponentFooter";
 import FoodList from "./FoodList";
 
-const FoodPrefrencesList = ({id}) => {
+const FoodPreferencesList = ({id}) => {
 
     const [foods, setFoods] = useState([]);
     console.log('ID PREF USER: ', id);
@@ -25,14 +25,14 @@ const FoodPrefrencesList = ({id}) => {
         <div>
             <ComponentNavbar />
             <div className="container mt-5">
-                <h2>Rekomendasi Makanan Anda</h2>
-                <div className="row">
+                <h2 className="mb-4">Rekomendasi Makanan Anda</h2>
+                <div className="row g-4">
                     {foods.length > 0 ? (
                         foods.map((food) => (
                             <FoodPreferencesCard key={food.id} food={food} />
                         ))
                     ) : (
-                        <p>Tidak ada rekomendasi saat ini.</p>
+                        <p className="text-muted">Tidak ada rekomendasi saat ini.</p>
                     )}
                 </div>
     
@@ -47,4 +47,4 @@ const FoodPrefrencesList = ({id}) => {
 
 
 
-export default FoodPrefrencesList;
+export default FoodPreferencesList;

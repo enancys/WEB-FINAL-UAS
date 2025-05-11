@@ -24,6 +24,7 @@ import UserFavoriteCategoriesPage from "./pages/admin/UserFavoriteCategory/UserF
 import CategoryFoodsIndex from "./pages/admin/CategoryFoods/CategoryFoodsIndex.js";
 import CategoryFoodsPage from "./pages/admin/CategoryFoods/CategoryFoodsPage.js";
 import CuisineFoodsPage from "./pages/admin/CuisineFoods/CuisineFoodsPage.js";
+import IngredientRestrictionsPage from "./pages/admin/IngredientRestrictions/IngredientRestrictionsPage.js";
 
 
 
@@ -44,6 +45,10 @@ const routesConfig = [
     { path: "cuisine_food", component: CuisineFoodsPage.CuisineFoodsIndex},
     { path: "cuisine_food/create", component: CuisineFoodsPage.CuisineFoodsCreate },
     { path: "cuisine_food/update/:id", component: CuisineFoodsPage.CuisineFoodsUpdate},
+
+    { path: "ingredient_restrictions", component: IngredientRestrictionsPage.IngredientRestrictionsIndex},
+    { path: "ingredient_restrictions/create", component: IngredientRestrictionsPage.IngredientRestrictionsCreate },
+    { path: "ingredient_restrictions/update/:id", component: IngredientRestrictionsPage.IngredientRestrictionsUpdate},
 
     { path: "cuisines", component: CuisinesPage.CuisinesIndex },
     { path: "cuisines/create", component: CuisinesPage.CuisinesCreate },

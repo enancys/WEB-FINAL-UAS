@@ -13,7 +13,11 @@ class RestaurantFoodController extends Controller
      */
     public function index()
     {
-        $restaurantFood = RestaurantFood::with('restaurant', 'food')->get();
+        $restaurantFood = RestaurantFood::with(
+            'restaurant', 
+                'food', 
+                'food.cuisine', 
+                'food.ingredients')->get();
         return response()->json($restaurantFood, 200);
     }
 

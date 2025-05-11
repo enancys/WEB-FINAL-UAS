@@ -52,6 +52,7 @@ function ComponentSideBar() {
             <NavLink to="/admin/foods" className="collapse-item">Foods</NavLink>
             <NavLink to="/admin/ingredients" className="collapse-item">Ingredients</NavLink>
             <NavLink to="/admin/food_ingredients" className="collapse-item">Food ingredients</NavLink>
+            <NavLink to="/admin/ingredient_restrictions" className="collapse-item">Ingredient Restrictions</NavLink>
             <NavLink to="/admin/restaurant_foods" className="collapse-item">Retaurant Foods</NavLink>
             <NavLink to="/admin/ratings" className="collapse-item">Ratings</NavLink>
             <NavLink to="/admin/food_tags" className="collapse-item">Food Tags</NavLink>

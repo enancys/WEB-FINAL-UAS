@@ -1,40 +1,97 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 const FoodCard = ({ food }) => {
-    console.log(food.image_url);   
-    console.log(food);
+    const [showModal, setShowModal] = useState(false);
+
+    const imageUrl = food?.image_url
+        ? `http://localhost:8000${food.image_url}`
+        : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS88AoVsxmTJpFnHlzAxJYlWG_s_RUMR7w0TA&s';
+
+    const toggleModal = () => setShowModal(!showModal);
 
     return (
         <div className="col-md-4 mb-4">
-            <div className="card h-100 shadow-sm">
+            <div className="card h-100 shadow-lg border-0 rounded-4" onClick={toggleModal}>
                 <img 
-                    src={`http://localhost:8000${food.image_url}`}
-
-                    className="card-img-top"
-                    alt={food.name}
-                    style={{ height: '200px', objectFit: 'cover' }}
+                    src={imageUrl}
+                    className="card-img-top rounded-top-4"
+                    alt={food.name || 'Makanan'}
+                    style={{ height: '200px', objectFit: 'fit' }}
                 />
-                {console.log('Image Path:', food.image_url)}
-        
-            <div className="card-body">
-                <h5 className="card-title">{food.name}</h5>
-                <p className="card-text">{food.description}</p>
-                <p className="card-text">
-                    <strong>Harga:</strong> Rp {food.price}
-                </p>
-                <p className="card-text text-muted">
-                <small><strong>Restoran:</strong> {food.restaurant?.name || food.restaurant_name}</small><br />
-                <small><strong>Masakan:</strong> {food.cuisine?.name || food.cuisine_name}</small>
-                </p>
-                <a
-                    href={`https://wa.me/${food.restaurant?.phone.replace(/^0/, '62')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-success"
-                    >
-                    Pesan via WhatsApp
-                </a>
 
+                <div className="card-body d-flex flex-column justify-content-between">
+                    <h5 className="card-title text-primary fw-bold">
+                        {food.name}
+                    </h5>
+                    <p className="card-text">{food.description}</p>
+                    <p className="card-text">
+                        <strong>Harga:</strong> Rp. {food.price}
+                    </p>
+                    <p className="card-text text-muted">
+                    </p>
+                    <a
+                        href={`https://wa.me/${food.restaurant?.phone.replace(/^0/, '62')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-success mt-2 d-block text-center rounded-pill shadow-sm"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        Pesan via WhatsApp
+                    </a>
+                </div>
             </div>
-        </div>
+
+            {showModal && (
+                <div className="modal show" style={{ display: 'block', zIndex: 1050 }} tabIndex="-1" role="dialog">
+                    <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">{food.name}</h5>
+                                <button type="button" className="btn-close" onClick={toggleModal}></button>
+                            </div>
+                            <div className="modal-body" style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
+                                <img 
+                                    src={imageUrl} 
+                                    alt={food.name} 
+                                    className="img-fluid w-100 mb-3" 
+                                    style={{ objectFit: 'cover', maxHeight: '300px' }}
+                                />
+                                <p><strong>Deskripsi:</strong> {food.description}</p>
+                                <p><strong>Harga:</strong> Rp. {food.price}</p>
+                                <p>
+                                    <strong>Restoran:</strong>{' '}
+                                    <Link to={`/restaurant/${food.restaurant?.id}`} className="text-decoration-none text-primary">
+                                        {food.restaurant?.name || food.restaurant_name}
+                                    </Link>
+                                </p>
+                                <p><strong>Restoran Rating:</strong> {food.restaurant?.rating || '0.0'}</p>
+                                <p><strong>Masakan:</strong> {food.cuisine?.name || food.cuisine_name}</p>
+                                <p><strong>Ingredient:</strong>{' '}
+                                    {food.ingredients?.map((ingredient, index) => (
+                                        <span key={index}>
+                                            {ingredient.name}{index < food.ingredients.length - 1 ? ', ' : ''}
+                                        </span>
+                                    ))}
+                                </p>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" onClick={toggleModal}>
+                                    Tutup
+                                </button>
+                                <a
+                                    href={`https://wa.me/${food.restaurant?.phone.replace(/^0/, '62')}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn btn-success"
+                                >
+                                    Pesan via WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

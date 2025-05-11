@@ -33,7 +33,7 @@ const ComponentNavbar = () => {
               <Link className="nav-link" to="/">Beranda</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/about">Tentang</Link>
+              <Link className="nav-link" to="/aboutMe">Tentang</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/foods">Makanan</Link>

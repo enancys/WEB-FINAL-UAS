@@ -14,6 +14,7 @@ import RestaurantDetail from './components/user/Restaurant/RestaurantDetail.js';
 // import FoodPreferencesCard from './components/FoodPreferencesCard.js';
 import FoodPrefrencesList from './components/FoodPreferencesList.js';
 import { useContext, useEffect, useState } from 'react';
+import AboutMePage from './pages/user/AboutMePage.js';
 // import axios from 'axios';
 
 
@@ -55,6 +56,8 @@ const AppRoutes = () => {
             <ProtectedRoute element={<LandingPage />} />
           }
         />
+
+        <Route path='/aboutMe' element= {<AboutMePage/>} />
 
         <Route path="/" element={<LandingPage />} />
         <Route path="/profilPreference" element={<ProfilePreferences/>} />
