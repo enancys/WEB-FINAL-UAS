@@ -7,7 +7,7 @@ const TagsIndex = () => {
     const loadTags = () => {
         axios.get('http://127.0.0.1:8000/api/tags')
         .then(Response => {
-            setTagsData(Response.data);
+            setTagsData(Response.data.data);
         })
         .catch(Error => {
             alert('Eror Fetching Data: ', Error);

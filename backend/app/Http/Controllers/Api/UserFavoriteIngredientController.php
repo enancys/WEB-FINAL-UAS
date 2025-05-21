@@ -16,7 +16,13 @@ class UserFavoriteIngredientController extends Controller
     public function index()
     {
         $userFavoriteIngredient = UserFavoriteIngredient::with('userPreference.user', 'ingredient')->get();
-        return response()->json($userFavoriteIngredient, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $userFavoriteIngredient
+            ], 200
+        );
     }
 
     /**
@@ -29,7 +35,13 @@ class UserFavoriteIngredientController extends Controller
             'ingredient_id' => 'required|integer|exists:ingredients,id'
         ]);
         $userFavoriteIngredient = UserFavoriteIngredient::create($validated);
-        return response()->json($userFavoriteIngredient, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dibuat",
+                'data' => $userFavoriteIngredient
+            ], 201
+        );
     }
 
     /**
@@ -38,7 +50,13 @@ class UserFavoriteIngredientController extends Controller
     public function show(string $id)
     {
         $userFavoriteIngredient = UserFavoriteIngredient::findOrFail($id);
-        return response()->json($userFavoriteIngredient, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $userFavoriteIngredient
+            ], 200
+        );
     }
 
     /**
@@ -53,7 +71,13 @@ class UserFavoriteIngredientController extends Controller
 
         $userFavoriteIngredient = UserFavoriteIngredient::findOrFail($id);
         $userFavoriteIngredient->update($userFavoriteIngredient);
-        return response()->json($userFavoriteIngredient, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $userFavoriteIngredient
+            ], 200
+        );
     }
 
     /**
@@ -63,7 +87,13 @@ class UserFavoriteIngredientController extends Controller
     {
         $userFavoriteIngredient = UserFavoriteIngredient::findOrFail($id);
         $userFavoriteIngredient->delete();
-        return response()->json(['mesaage' => 'User Favorite Ingredient Berhasil Dihapus', 200]);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
     }
 
 }

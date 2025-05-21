@@ -20,8 +20,7 @@ const IngredientRestrictionsUpdate = () => {
             .then(
                 (resIng) => 
                     {
-                        setIngredient(resIng.data);
-                        console.log('Respon dari data ingredient: ', resIng.data);
+                        setIngredient(resIng.data.data);
                     }
             )
             .catch(
@@ -34,7 +33,7 @@ const IngredientRestrictionsUpdate = () => {
             .then(
                 (resRes) => 
                     {
-                        setRestriction(resRes.data);
+                        setRestriction(resRes.data.data);
                         console.log('Respon dari data restriction: ', resRes.data);
                     }
             )

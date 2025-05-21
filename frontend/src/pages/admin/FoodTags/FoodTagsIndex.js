@@ -7,7 +7,7 @@ const FoodTagsIndex = () => {
     const loadUser = () => {
         axios.get('http://127.0.0.1:8000/api/food_tags')
         .then(Response => {
-            setFoodTags(Response.data);
+            setFoodTags(Response.data.data);
         })
         .catch(Error => {
             alert('Eror Fetching Data: ', Error);
@@ -33,12 +33,15 @@ const FoodTagsIndex = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-bg-gray-800 mb-2">User Data</h1>
-            <Link to="/admin/food_tags/create" className="btn btn-primary mb-2">Create</Link>
-            <div className="card shadow mb-4">
+            <h1 className="h3 text-gray-800 mb-4">Food Tags Data</h1>
+            <Link to="/admin/food_tags/create" className="btn btn-primary mb-3">
+            <i className="fas fa-plus mr-2"></i>
+            Create</Link>
+            <div className="card shadow border-0 rounded">
                 <div className="card-body">
-                    <div className="table-table-responsive">
-                        <table className="table table-bordered" width="100%" cellSpacing="0">
+                    <div className="table-responsive">
+                        <table className="table table-bordered table-striped table-hover" 
+                        width="100%" cellSpacing="0">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -46,7 +49,7 @@ const FoodTagsIndex = () => {
                                     <th>Food Name</th>
                                     <th>Tag ID</th>
                                     <th>Tag Name</th>
-                                    <th>Action</th>
+                                    <th style={{ width: "200px"}}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,10 +62,17 @@ const FoodTagsIndex = () => {
                                         <td>{food_tag.tag?.name}</td>
                                         
                                         <td>
-                                            <Link to={`/admin/food_tags/update/${food_tag.id}`} className="btn btn-sm btn-info">Edit</Link>
+                                            <Link to={`/admin/food_tags/update/${food_tag.id}`} className="btn btn-sm btn-info">
+                                                <i className="fas fa-edit"></i>
+                                                Edit
+                                            </Link>
                                             <button 
                                                 onClick={() => handleDelete(food_tag.id)}
-                                                className="btn btn-sm btn-danger ml-1">Delete</button>
+                                                className="btn btn-sm btn-danger ml-1"
+                                                >                                                
+                                                    <i className="fas fa-trash"></i>
+                                                    Delete
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}

@@ -9,7 +9,7 @@ const UserFavoriteIngredientsIndex = () => {
 
         axios.get('http://127.0.0.1:8000/api/user_favorite_ingredients')
         .then(Response => {
-            setUserFavoriteIngredientsData(Response.data);
+            setUserFavoriteIngredientsData(Response.data.data);
         })
         .catch(Error => {
             alert('Eror Fetchting Data: ',Error);

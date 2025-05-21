@@ -14,7 +14,13 @@ class FoodTagController extends Controller
     public function index()
     {
         $foodTag = FoodTag::with('food', 'tag')->get();
-        return response()->json($foodTag, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data Food Tag Berhasil Dimuat',
+                'data' => $foodTag
+            ], 200
+        );
     }
 
     /**
@@ -28,7 +34,13 @@ class FoodTagController extends Controller
         ]);
 
         $foodTag = FoodTag::create($validated);
-        return response()->json($foodTag, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data Food Tag Berhasil Dibuat',
+                'data' => $foodTag
+            ], 201
+        );
 
     }
 
@@ -38,7 +50,13 @@ class FoodTagController extends Controller
     public function show(string $id)
     {
         $foodTag = FoodTag::findOrFail($id);
-        return response()->json($foodTag, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $foodTag
+            ], 200
+        );
     }
 
     /**
@@ -52,7 +70,13 @@ class FoodTagController extends Controller
         ]);
         $foodTag = FoodTag::findOrFail($id);
         $foodTag->update($validated);
-        return response()->json($foodTag, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $foodTag
+            ], 200
+        );
     }
 
     /**
@@ -62,6 +86,12 @@ class FoodTagController extends Controller
     {
         $foodTag = FoodTag::findOrFail($id);
         $foodTag->delete();
-        return response()->json(['message' => 'Food Tag berhasil dihapus', 200]);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
     }
 }

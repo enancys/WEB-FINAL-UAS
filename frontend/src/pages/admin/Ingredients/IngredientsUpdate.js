@@ -13,7 +13,7 @@ const IngredientsUpdate = () => {
     const getIngredients = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/ingredients/${id}`)
         .then(Response => {
-            const { name } = Response.data;
+            const { name } = Response.data.data;
             setingredientsData({ name });
         })
         .catch(Error => {
@@ -37,7 +37,7 @@ const IngredientsUpdate = () => {
         event.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/ingredients/${id}`, ingredientsData)
         .then(Response => {
-            alert('ingredients updated successfully: ', Response.data);
+            alert('ingredients updated successfully: ', Response.data.data);
             navigate('/admin/ingredients');
         })
         .catch(Error => {

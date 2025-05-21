@@ -6,6 +6,8 @@ const RestaurantsUpdate = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     console.log('Restaurant ID:', id);
+    const [cuisines, setCuisines] = useState([]);
+    
     const [restaurantsData, setRestaurantsData] = useState({
         name: "",
         location: "",
@@ -18,14 +20,29 @@ const RestaurantsUpdate = () => {
         image_url: ""
     });
 
+
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     
+        useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/cuisines')
+            .then(
+                (cuisinesData) => {
+                    setCuisines(cuisinesData.data.data);
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log('Gagal memuat data cuisines: ', error);
+                }
+            );
+    }, []);
+
     const getRestaurants = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/restaurants/${id}`)
         .then(Response => {
-            const { name, location, phone, website_url, opening_hours, cuisine_id, rating, description,  image_url } = Response.data;
+            const { name, location, phone, website_url, opening_hours, cuisine_id, rating, description,  image_url } = Response.data.data;
             setRestaurantsData({ name, location, phone, website_url, opening_hours, cuisine_id, rating, description, image_url });
         })
         .catch(Error => {
@@ -94,7 +111,7 @@ const RestaurantsUpdate = () => {
             }, 1500);
         })
         .catch(error => {
-            console.error('Error updating restaurants:', error.response ? error.response.data : error);
+            console.error('Error updating restaurants:', error.response ? error.Response.data.data : error);
             setError('Failed to update restaurants. Please check the form data and try again.');
         });
     };
@@ -152,14 +169,25 @@ const RestaurantsUpdate = () => {
                                 required />
                         </div>
                         <div className="form-group">
-                            <label>Cuisines_ID:</label>
-                            <input type="number"
+                            <label>Cuisine: </label>
+                            <select 
                                 name="cuisine_id"
                                 value={restaurantsData.cuisine_id}
                                 onChange={handleInputChange}
                                 className="form-control"
-                                required/>
-                        </div>
+                                required
+                            >
+                                <option
+                                    value="">Pilih Restaurants</option>
+                                    {cuisines.map(cuisine => 
+                                        (
+                                            <option key={cuisine.id}
+                                                value={cuisine.id}>{cuisine.name}
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
                         <div className="form-group">
                             <label>Rating:</label>
                             <input type="number" step="0.01"
@@ -186,9 +214,7 @@ const RestaurantsUpdate = () => {
                                 className="form-control"
                                 required/>
                         </div>
-                        <button type="submit"
-                            className="btn btn-primary">Update
-                        </button>
+                        <button type="submit" className="btn btn-success">Submit</button>
                     </form>
                 </div>
             </div>

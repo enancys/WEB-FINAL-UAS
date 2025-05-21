@@ -7,7 +7,7 @@ const UserIndex = () => {
     const loadUser = () => {
         axios.get('http://127.0.0.1:8000/api/users')
         .then(Response => {
-            setUser(Response.data);
+            setUser(Response.data.data);
         })
         .catch(Error => {
             alert('Eror Fetching Data: ', Error);

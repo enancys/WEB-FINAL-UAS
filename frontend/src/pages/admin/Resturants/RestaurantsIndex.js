@@ -7,7 +7,7 @@ const RestaurantsIndex = () => {
     const loadRestaurants = () => {
         axios.get('http://127.0.0.1:8000/api/restaurants')
         .then(Response => {
-            setRestaurants(Response.data);
+            setRestaurants(Response.data.data);
         })
         .catch(Error => {
             alert('Eror Fetching Data: ', Error);
@@ -33,12 +33,14 @@ const RestaurantsIndex = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-bg-gray-800 mb-2">restaurants Data</h1>
-            <Link to="/admin/restaurants/create" className="btn btn-primary mb-2">Create</Link>
-            <div className="card shadow mb-4">
+            <h1 className="h3 text-bg-gray-800 mb-4">Restaurants Data</h1>
+            <Link to="/admin/restaurants/create" className="btn btn-primary mb-3">
+                <i className="fas fa-plus mr-2"></i> 
+            Create</Link>
+            <div className="card shadow border-0 rounded">
                 <div className="card-body">
                     <div className="table-responsive" style={{ overflowX: 'auto', maxHeight: '600px' }}>
-                        <table className="table table-bordered" width="100%" cellSpacing="0">
+                        <table className="table table-bordered table-striped table-hover" width="100%" cellSpacing="0">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -50,7 +52,7 @@ const RestaurantsIndex = () => {
                                     <th>rating</th>
                                     <th>description</th>
                                     <th>Image Url</th>
-                                    <th>Action</th>
+                                    <th style={{ width: "200px" }}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,17 +62,27 @@ const RestaurantsIndex = () => {
                                         <td>{restaurant.name}</td>
                                         <td>{restaurant.location}</td>
                                         <td>{restaurant.phone}</td>
-                                        <td>{restaurant.website_url}</td>
+                                        <td style={{ wordBreak: "break-word", maxWidth: "150px", whiteSpace: "normal" }}>
+                                            {restaurant.website_url}
+                                        </td>
                                         <td>{restaurant.cuisine?.id}</td>
                                         <td>{restaurant.cuisine?.name}</td>
                                         <td>{restaurant.rating}</td>
-                                        <td>{restaurant.description}</td>
-                                        <td>{restaurant.image_url}</td>
+                                        <td style={{ wordBreak: "break-word", maxWidth: "150px", whiteSpace: "normal" }}>
+                                            {restaurant.description}
+                                        </td>
+                                        <td style={{ wordBreak: "break-word", maxWidth: "150px", whiteSpace: "normal" }}>
+                                            {restaurant.image_url}
+                                        </td>
                                         <td>
-                                            <Link to={`/admin/restaurants/update/${restaurant.id}`} className="btn btn-sm btn-info">Edit</Link>
+                                            <Link to={`/admin/restaurants/update/${restaurant.id}`} className="btn btn-sm btn-info">
+                                                <i className="fas fa-edit"></i>
+                                            Edit</Link>
                                             <button 
                                                 onClick={() => handleDelete(restaurant.id)}
-                                                className="btn btn-sm btn-danger ml-1">Delete</button>
+                                                className="btn btn-sm btn-danger ml-1">
+                                                    <i className="fas fa-trash"></i>
+                                                    Delete</button>
                                         </td>
                                     </tr>
                                 ))}

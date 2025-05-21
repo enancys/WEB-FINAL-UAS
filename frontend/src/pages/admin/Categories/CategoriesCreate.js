@@ -35,8 +35,8 @@ const CategoriesCreate = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-gray-800 mb-2">Add New categories</h1>
-            <Link to="/admin/categories" className="btn btn-secondary mb-2">Back</Link>
+            <h1 className="h3 text-gray-800 mb-4">Add New categories</h1>
+            <Link to="/admin/categories" className="btn btn-secondary mb-3">Back</Link> 
             <div className="card shadow mb-4">
                 <div className="card-body">
                     {error && <div className="alert alert-danger">{error}</div>}

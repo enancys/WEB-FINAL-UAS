@@ -14,7 +14,13 @@ class FoodIngredientController extends Controller
     public function index()
     {
         $foodIngredient = FoodIngredient::with('food', 'ingredient')->get();
-        return response()->json($foodIngredient);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data FoodIngredient Berhasil Dimuat',
+                'data' => $foodIngredient
+            ], 200
+        );
     }
 
     /**
@@ -30,7 +36,15 @@ class FoodIngredientController extends Controller
         ]);
 
         $foodIngredient = FoodIngredient::create($validated);
-        return response()->json($foodIngredient, 201);
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data FoodIngrdeient Berhasil Dibuat',
+                'data' => $foodIngredient
+            ], 201
+        );
+
     }
 
     /**
@@ -39,7 +53,14 @@ class FoodIngredientController extends Controller
     public function show(string $id)
     {
         $foodIngredient = FoodIngredient::findOrFail($id);
-        return response()->json($foodIngredient, 200);
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $foodIngredient
+            ], 200
+        );
     }
 
     /**
@@ -56,7 +77,13 @@ class FoodIngredientController extends Controller
 
         $foodIngredient = FoodIngredient::findOrFail($id);
         $foodIngredient->update($validated);
-        return response()->json($foodIngredient, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data dengan ID {$id} Berhasil Diupdate",
+                'data' => $foodIngredient
+            ], 200
+        );
     }
 
     /**
@@ -66,7 +93,14 @@ class FoodIngredientController extends Controller
     {
         $foodIngredient = FoodIngredient::findOrFail($id);
         $foodIngredient->delete();
-        return response()->json(['message' => 'Food ingredient berhasil dihapus'], 200);
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ]
+        );
 
     }
 }

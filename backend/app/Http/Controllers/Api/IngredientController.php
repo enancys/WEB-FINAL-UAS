@@ -14,7 +14,13 @@ class IngredientController extends Controller
     public function index()
     {
         $ingredient = Ingredient::all();
-        return response()->json($ingredient, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan Berhasil Diupdate",
+                'data' => $ingredient
+            ], 200
+        );
     }
 
     /**
@@ -27,7 +33,13 @@ class IngredientController extends Controller
         ]);
 
         $ingredient = Ingredient::create($validated);
-        return response()->json($ingredient, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dibuat",
+                'data' => $ingredient
+            ], 201
+        );
 
     }
 
@@ -37,7 +49,14 @@ class IngredientController extends Controller
     public function show(string $id)
     {
         $ingredient = Ingredient::findOrFail($id);
-        return response()->json($ingredient, 200);
+            
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $ingredient
+            ], 200
+        );
     }
 
     /**
@@ -50,7 +69,14 @@ class IngredientController extends Controller
         ]);
         $ingredient = Ingredient::findOrFail($id);
         $ingredient->update($validated);
-        return response()->json($ingredient, 200);
+                
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $ingredient
+            ], 200
+        );
     }
 
     /**
@@ -60,7 +86,14 @@ class IngredientController extends Controller
     {
         $ingredient = Ingredient::findOrFail($id);
         $ingredient->delete();
-        return response()->json(['message' => 'Ingredient berhasil dihapus'], 200);
+                
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
 
     }
 }

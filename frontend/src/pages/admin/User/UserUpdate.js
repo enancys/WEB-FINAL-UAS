@@ -16,7 +16,7 @@ const UserUpdate = () => {
     const getUser = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/users/${id}`)
         .then(Response => {
-            const { name, email, password, role } = Response.data;
+            const { name, email, password, role } = Response.data.data;
             setUserData({ name, email, password, role });
         })
         .catch(Error => {
@@ -40,7 +40,7 @@ const UserUpdate = () => {
         event.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/users/${id}`, userData)
         .then(Response => {
-            alert('User updated successfully: ', Response.data);
+            alert('User updated successfully: ', Response.data.data);
             navigate('/admin/user');
         })
         .catch(Error => {

@@ -33,7 +33,7 @@ class CuisineFoodController extends Controller
             [
                 'cuisine_id' => 'required|integer|exists:cuisines,id',
                 'food_id' => 'required|integer|exists:foods,id'
-            ], 201
+            ]
         );
 
         $cuisineFood = CuisineFood::create($validated);

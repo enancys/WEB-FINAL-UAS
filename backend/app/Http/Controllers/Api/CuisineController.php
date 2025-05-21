@@ -14,7 +14,13 @@ class CuisineController extends Controller
     public function index()
     {
         $cuisine = Cuisine::all();
-        return response()->json($cuisine, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data Cuisine berhasil Dimuat',
+                'data' => $cuisine
+            ], 200
+        );
     }
 
     /**
@@ -27,7 +33,13 @@ class CuisineController extends Controller
             'description' => 'required|string'
         ]);
         $cuisine = Cuisine::create($validated);
-        return response()->json($cuisine, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data Cuisine berhasil Dibuat',
+                'data' => $cuisine
+            ], 201
+        );
     }
 
     /**
@@ -36,7 +48,13 @@ class CuisineController extends Controller
     public function show(string $id)
     {
         $cuisine = Cuisine::findOrFail($id);
-        return response()->json($cuisine, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Cuisine ID {$id}berhasil dimuat",
+                'data' => $cuisine
+            ], 200
+        );
     }
 
     /**
@@ -52,7 +70,13 @@ class CuisineController extends Controller
         $cuisine = Cuisine::findOrFail($id);
         $cuisine->update($validated);
     
-        return response()->json($cuisine, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Cuisine ID {$id}berhasil diupdate",
+                'data' => $cuisine
+            ], 200
+        );
     }
 
     /**
@@ -61,7 +85,14 @@ class CuisineController extends Controller
     public function destroy(string $id)
     {
         $cuisine = Cuisine::findOrFail($id);
-        $cuisine->delete();  
-        return response()->json(['message' => 'Cuisine berhasil dihapus'], 200);
+        $cuisine->delete(); 
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Cuisine ID {$id}berhasil dihapus",
+                'data' => null
+            ], 200
+        );
     }
 }

@@ -5,12 +5,13 @@ import RestaurantCard from './RestaurantCard';
 const RestaurantList = () => {
     const [restaurant, setRestaurant] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-
+    const [sortBy, setSortBy] = useState('name');
+    const [sortOrder, SetSortOrder] = useState('asc');
 
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/restaurants')
         .then((response) => {
-            setRestaurant(response.data);
+            setRestaurant(response.data.data);
         })
         .catch((error) => {
             console.error('Gagal memuat data makanan:', error);
@@ -23,6 +24,28 @@ const RestaurantList = () => {
         (r.cuisine?.name?.toLowerCase() || '').includes(searchQuery.toLowerCase())
     );
 
+    const sortedFoods = [...filteredRestaurants].sort((a,b) => {
+        let varA = a[sortBy];
+        let varB = b[sortBy];
+
+        if(sortBy === 'rating') {
+            varA = parseFloat(a.rating || 0);
+            varB = parseFloat(b.rating || 0);
+        } else if(sortBy === 'location') {
+            varA = a.location || 0;
+            varB = b.location || 0;
+        } else {
+            varA = a[sortBy]?.toString().toLowerCase() || '';
+            varB = b[sortBy]?.toString().toLowerCase() || '';
+        }
+
+        if(varA < varB) return sortOrder === 'asc' ? -1 : 1;
+        if(varA > varB) return sortOrder === 'asc' ? 1 : -1;
+
+        return 0;
+    });
+    
+
     return (
         <div className="container mt-5">
             <input
@@ -32,6 +55,26 @@ const RestaurantList = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
             />
+            <div className='d-flex mb-4 gap-3'>
+                <select
+                    className='form-select w-auto'
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                >
+                    <option value="name">Nama</option>
+                    <option value="rating">Rating</option>
+                    <option value="location">Location</option>
+                </select>
+                <select
+                    className='form-select w-auto'
+                    value={sortOrder}
+                    onChange={(e) => SetSortOrder(e.target.value)}
+                >
+                    <option value='asc'>Naik</option>
+                    <option value='desc'>Turun</option>
+
+                </select>
+            </div>
 
             <div className="d-flex overflow-auto"
                 style={{
@@ -40,7 +83,7 @@ const RestaurantList = () => {
                     paddingBottom: '1rem',
                 }}
             >
-                {filteredRestaurants.map((restaurant) => (
+                {sortedFoods.map((restaurant) => (
                 <div
                     key={restaurant.id}
                     className="flex-shrink-0"

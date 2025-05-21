@@ -16,7 +16,10 @@ const LandingPage = () => {
   return (
     <div>
       <ComponentNavbar />
+      {/* <div className="offset-navbar"> */}
+        
       <ComponentHeroSection />
+      {/* </div> */}
 
 
   <header className='bg-light py-5 text-center'>
@@ -36,18 +39,6 @@ const LandingPage = () => {
           )}
     </div>
   </header>
-      {/* <header className="bg-light py-5 text-center">
-        <div className="container">
-          <h1 className="display-4">Temukan Rekomendasi Makanan Terbaik</h1>
-          <p className="lead">Sesuaikan dengan selera, alergi, dan preferensimu!</p>
-          {isLoggedIn ? (
-            <p>Selamat datang kembali!</p>
-          ) : (
-            <a href="/login" className="btn btn-primary btn-lg mt-3">Mulai Sekarang</a>
-          )}
-        </div>
-      </header> */}
-
       <section className="py-5 bg-white">
         <div className="container">
           <h2 className="mb-4 text-center">Rekomendasi Restaurants</h2>

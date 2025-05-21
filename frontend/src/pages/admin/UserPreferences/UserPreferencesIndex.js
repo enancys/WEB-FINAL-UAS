@@ -7,7 +7,7 @@ const UserPreferencesIndex = () => {
     const loadUser_preferences = () => {
         axios.get('http://127.0.0.1:8000/api/user_preferences')
         .then(Response => {
-            setUser_preferences(Response.data);
+            setUser_preferences(Response.data.data);
         })
         .catch(Error => {
             alert('Eror Fetching Data: ', Error);

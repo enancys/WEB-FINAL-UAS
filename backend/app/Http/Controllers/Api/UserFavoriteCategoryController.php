@@ -14,7 +14,13 @@ class UserFavoriteCategoryController extends Controller
     public function index()
     {
         $userFavoriteCategory = UserFavoriteCategory::with('userPreference.user', 'category')->get();
-        return response()->json($userFavoriteCategory, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $userFavoriteCategory
+            ], 200
+        );
     }
 
     /**
@@ -27,7 +33,13 @@ class UserFavoriteCategoryController extends Controller
             'category_id' => 'required|integer|exists:categories,id'
         ]);
         $userFavoriteCategory = UserFavoriteCategory::create($validated);
-        return response()->json($userFavoriteCategory, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $userFavoriteCategory
+            ], 201
+        );
     }
 
     /**
@@ -36,7 +48,13 @@ class UserFavoriteCategoryController extends Controller
     public function show(string $id)
     {
         $userFavoriteCategory = UserFavoriteCategory::findOrFail($id);
-        return response()->json($userFavoriteCategory, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $userFavoriteCategory
+            ], 200
+        );
     }
 
     /**
@@ -50,7 +68,13 @@ class UserFavoriteCategoryController extends Controller
         ]);
         $userFavoriteCategory = UserFavoriteCategory::findOrFail($id);
         $userFavoriteCategory->update($validated);
-        return response()->json($userFavoriteCategory, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $userFavoriteCategory
+            ], 200
+        );
     }
     /**
      * Remove the specified resource from storage.
@@ -59,7 +83,13 @@ class UserFavoriteCategoryController extends Controller
     {
         $userFavoriteCategory = UserFavoriteCategory::findOrFail($id);
         $userFavoriteCategory->delete();
-        return response()->json(['message' => 'User Favorite Category Berhasil Dihapus', 200]);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
     }
 
     

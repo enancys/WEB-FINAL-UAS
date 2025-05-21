@@ -9771,7 +9771,7 @@ jQuery.extend( {
 				// If we have data, let's convert it
 				} else {
 					statusText = response.state;
-					success = response.data;
+					success = Response.data.data;
 					error = response.error;
 					isSuccess = !error;
 				}

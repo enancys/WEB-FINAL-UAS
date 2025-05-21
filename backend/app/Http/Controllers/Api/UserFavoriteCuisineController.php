@@ -14,7 +14,13 @@ class UserFavoriteCuisineController extends Controller
     public function index()
     {
         $userFavoriteCuisine = UserFavoriteCuisine::with('userPreference.user', 'cuisine')->get();
-        return response()->json($userFavoriteCuisine, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $userFavoriteCuisine
+            ], 200
+        );
     }
 
     /**
@@ -28,7 +34,13 @@ class UserFavoriteCuisineController extends Controller
         ]);
 
         $userFavoriteCuisine = UserFavoriteCuisine::create($validated);
-        return response()->json($userFavoriteCuisine, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dibuat",
+                'data' => $userFavoriteCuisine
+            ], 201
+        );
     }
 
     /**
@@ -37,7 +49,13 @@ class UserFavoriteCuisineController extends Controller
     public function show(string $id)
     {
         $userFavoriteCuisine = UserFavoriteCuisine::findOrFail($id);
-        return response()->json($userFavoriteCuisine, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $userFavoriteCuisine
+            ], 200
+        );
     }
 
     /**
@@ -51,7 +69,13 @@ class UserFavoriteCuisineController extends Controller
         ]);
         $userFavoriteCuisine = UserFavoriteCuisine::findOrFail($id);
         $userFavoriteCuisine->update($validated);
-        return response()->json($userFavoriteCuisine, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $userFavoriteCuisine
+            ], 200
+        );
     }
 
     /**
@@ -61,6 +85,12 @@ class UserFavoriteCuisineController extends Controller
     {
         $userFavoriteCuisine = UserFavoriteCuisine::findOrFail($id);
         $userFavoriteCuisine->delete();
-        return response()->json(['User Favorite Cuisine Berhasil Dihapus', 200]);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
     }
 }

@@ -14,7 +14,13 @@ class UserDislikedIngredientController extends Controller
     public function index()
     {
         $userDislikedIngredient = UserDislikedIngredient::with('userPreference.user', 'ingredient')->get();
-        return response()->json($userDislikedIngredient, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $userDislikedIngredient
+            ], 200
+        );
     }
 
     /**
@@ -27,7 +33,13 @@ class UserDislikedIngredientController extends Controller
             'ingredient_id' => 'required|integer|exists:ingredients,id'
         ]);
         $userDislikedIngredient = UserDislikedIngredient::create($validated);
-        return response()->json($userDislikedIngredient, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dibuat",
+                'data' => $userDislikedIngredient
+            ], 201
+        );
     }
 
     /**
@@ -36,7 +48,13 @@ class UserDislikedIngredientController extends Controller
     public function show(string $id)
     {
         $userDislikedIngredient = UserDislikedIngredient::findOrFail($id);
-        return response()->json($userDislikedIngredient, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $userDislikedIngredient
+            ], 200
+        );
     }
 
     /**
@@ -50,7 +68,13 @@ class UserDislikedIngredientController extends Controller
         ]);
         $userDislikedIngredient = UserDislikedIngredient::findOrFail($id);
         $userDislikedIngredient->update($validated);
-        return response()->json($userDislikedIngredient, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $userDislikedIngredient
+            ], 200
+        );
     }
 
     /**
@@ -60,6 +84,12 @@ class UserDislikedIngredientController extends Controller
     {
         $userDislikedIngredient = UserDislikedIngredient::findOrFail($id);
         $userDislikedIngredient->delete();
-        return response()->json(['message' => 'userDislikedIngredient Berhasil Dihapus', 200]);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
     }
 }

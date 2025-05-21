@@ -16,7 +16,7 @@ const UserPreferencesUpdate = () => {
     const getUser_preferences = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/user_preferences/${id}`)
         .then(Response => {
-            const { name, user_id, favorite_categories, disliked_ingredients, dietary_restrictions, favorite_cuisines} = Response.data;
+            const { name, user_id, favorite_categories, disliked_ingredients, dietary_restrictions, favorite_cuisines} = Response.data.data;
             setUser_preferences({ name, user_id, favorite_categories, disliked_ingredients, dietary_restrictions, favorite_cuisines});
         })
         .catch(Error => {
@@ -40,7 +40,7 @@ const UserPreferencesUpdate = () => {
         event.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/user_preferences/${id}`, user_preferencesData)
         .then(Response => {
-            alert('user_preferences updated successfully: ', Response.data);
+            alert('user_preferences updated successfully: ', Response.data.data);
             navigate('/admin/user_preferences');
         })
         .catch(Error => {

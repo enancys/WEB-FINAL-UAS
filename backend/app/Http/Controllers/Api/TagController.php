@@ -14,7 +14,13 @@ class TagController extends Controller
     public function index()
     {
         $tag = Tag::all();
-        return response()->json($tag, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $tag
+            ], 200
+        );
     }
 
     /**
@@ -26,7 +32,13 @@ class TagController extends Controller
             'name' => 'required|string'
         ]);
         $tag = Tag::create($validated);
-        return response()->json($tag, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dibuat",
+                'data' => $tag
+            ], 201
+        );
     }
 
     /**
@@ -35,7 +47,13 @@ class TagController extends Controller
     public function show(string $id)
     {
         $tag = Tag::findOrFail($id);
-        return response()->json($tag, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $tag
+            ], 200
+        );
     }
 
     /**
@@ -48,7 +66,13 @@ class TagController extends Controller
         ]);
         $tag = Tag::findOrFail($id);
         $tag->update($validated);
-        return response()->json($tag, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $tag
+            ], 200
+        );
     }
 
     /**
@@ -58,7 +82,14 @@ class TagController extends Controller
     {
         $tag = Tag::findOrFail($id);
         $tag->delete();
-        return response()->json(['message' => 'Tag berhasil dihapus'], 200);
+        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
 
     }
 }

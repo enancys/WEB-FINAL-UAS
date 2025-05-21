@@ -14,8 +14,13 @@ class UserDietaryResctrictionController extends Controller
     public function index()
     {
         $userDietaryResctriction = UserDietaryResctriction::with(['userPreference.user', 'restriction'])->get();
-        return response()->json($userDietaryResctriction, 200);
-        
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $userDietaryResctriction
+            ], 200
+        );
     }
 
     /**
@@ -29,7 +34,13 @@ class UserDietaryResctrictionController extends Controller
         ]);
 
         $userDietaryResctriction = UserDietaryResctriction::create($validated);
-        return response()->json($userDietaryResctriction, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dibuat",
+                'data' => $userDietaryResctriction
+            ], 201
+        );
     }
 
     /**
@@ -38,7 +49,13 @@ class UserDietaryResctrictionController extends Controller
     public function show(string $id)
     {
         $userDietaryResctriction = UserDietaryResctriction::findOrFail($id);
-        return response()->json($userDietaryResctriction, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $userDietaryResctriction
+            ], 200
+        );
     }
 
     /**
@@ -53,7 +70,13 @@ class UserDietaryResctrictionController extends Controller
 
         $userDietaryResctriction = UserDietaryResctriction::findOrFail($id);
         $userDietaryResctriction->update($validated);
-        return response()->json($userDietaryResctriction, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $userDietaryResctriction
+            ], 200
+        );
     }
 
     /**
@@ -63,6 +86,12 @@ class UserDietaryResctrictionController extends Controller
     {
         $userDieataryResctriction = UserDietaryResctriction::findOrFail($id);
         $userDieataryResctriction->delete();
-        return response()->json(['message' => 'UserDietaryResctriction Berhasil Dihapus', 200]);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
     }
 }

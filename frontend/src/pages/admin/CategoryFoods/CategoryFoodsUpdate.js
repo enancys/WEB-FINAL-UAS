@@ -6,6 +6,8 @@ const CategoryFoodsUpdate = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     console.log('categoryFoodsData ID:', id);
+    const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
     const [category, setCategory] = useState([]);
     const [foods, setFoods] = useState([]);
     const [categoryFoodsData, setCategoryFoodsData] = useState(
@@ -19,8 +21,8 @@ const CategoryFoodsUpdate = () => {
         axios.get('http://127.0.0.1:8000/api/categories')
             .then(
                 (resCategory) => {
-                    setCategory(resCategory.data);
-                    console.log('Respon dari data category: ', resCategory.data);
+                    setCategory(resCategory.data.data);
+                    console.log('Respon dari data category: ', resCategory.data.data);
                 }
             )
             .catch(
@@ -31,8 +33,8 @@ const CategoryFoodsUpdate = () => {
         axios.get('http://127.0.0.1:8000/api/foods')
             .then(
                 (resFoods) => {
-                    setFoods(resFoods.data);
-                    console.log('Respon dari data foods: ', resFoods.data);
+                    setFoods(resFoods.data.data);
+                    console.log('Respon dari data foods: ', resFoods.data.data);
                 }
             )
             .catch(
@@ -73,11 +75,15 @@ const CategoryFoodsUpdate = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setError(null); 
+        setSuccessMessage(null); 
         axios.put(`http://127.0.0.1:8000/api/category_food/${id}`, categoryFoodsData)
             .then(Response => 
                 {
-                    alert('categoryFoodsData updated successfully: ', Response.data.data);
-                    navigate('/admin/category_food');
+                    setSuccessMessage('categories added successfully!');
+                    setTimeout(() => {
+                        navigate('/admin/category_food');
+                    }, 1500 );
                 }
             )
             .catch(Error => 
@@ -89,12 +95,14 @@ const CategoryFoodsUpdate = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-gray-800 mb-2">
+            <h1 className="h3 text-gray-800 mb-4">
                 Edit Book
             </h1>
             <div className="card shadow mb-4">
                 <div className="card-body">
-<form onSubmit={handleSubmit}>
+                    {error && <div className="alert alert-danger">{error}</div>}
+                    {successMessage && <div className="alert alert-success">{successMessage}</div>}
+                    <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label>Category: </label>
                                 <select 

@@ -24,7 +24,13 @@ class FoodController extends Controller
     public function index()
     {
         $food = Food::with('restaurant', 'cuisine', 'ingredients')->get();
-        return response()->json($food, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data Food Berhasil dimuat',
+                'data' => $food
+            ], 200
+        );
     }
 
     /**
@@ -47,7 +53,15 @@ class FoodController extends Controller
         }
 
         $food = Food::create($validated);
-        return response()->json($food,201);
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Data Food Berhasil dibuat',
+                'data' => $food
+            ], 201
+        );
+        
     }
 
     /**
@@ -56,7 +70,14 @@ class FoodController extends Controller
     public function show(string $id)
     {
         $food = Food::findOrFail($id);
-        return response()->json($food, 200);
+        
+        return response()->json(
+            [
+                'success' => true, 
+                'message' => "Data Food ID {$id} Berhasil dimuat",
+                'data' => $food
+            ], 200
+        );
     }
 
     /**
@@ -80,7 +101,13 @@ class FoodController extends Controller
 
         $food = Food::findOrFail($id);
         $food->update($validated);
-        return response()->json($food, 200);
+        return response()->json(
+            [
+                'success' => true, 
+                'message' => "Data Food ID {$id} Berhasil Diupdate",
+                'data' => $food
+            ], 200
+        );
     }
 
     /**
@@ -90,24 +117,28 @@ class FoodController extends Controller
     {
         $food = Food::findOrFail($id);
         $food->delete();
-        return response()->json(['message' => 'Food berhasil dihapus'], 200);
+        return response()->json(
+            [
+                'success' => true, 
+                'message' => "Data Food ID {$id} Berhasil dihapus",
+                'data' => null
+            ], 200
+        );
     }
 
 public function getRecomendation(string $id) {
-    // Ambil ID
+
     $favIngredientIds = UserFavoriteIngredient::where('user_preference_id', $id)->pluck('ingredient_id');
     $disIngredientIds = UserDislikedIngredient::where('user_preference_id', $id)->pluck('ingredient_id');
     $favCategoryIds = UserFavoriteCategory::where('user_preference_id', $id)->pluck('category_id');
     $favCuisineIds = UserFavoriteCuisine::where('user_preference_id', $id)->pluck('cuisine_id');
     $dieteryRestrictions = UserDietaryResctriction::where('user_preference_id', $id)->pluck('restriction_id');
 
-    // Ambil nama berdasarkan ID
     $favIngredients = Ingredient::whereIn('id', $favIngredientIds)->pluck('name');
     $disIngredients = Ingredient::whereIn('id', $disIngredientIds)->pluck('name');
     $favCategories = Category::whereIn('id', $favCategoryIds)->pluck('name');
     $favCuisines = Cuisine::whereIn('id', $favCuisineIds)->pluck('name');
 
-    // Ingredient yang dilarang dari dietary restriction
     $ingredientRestrictions = Restriction::whereIn('id', $dieteryRestrictions)
         ->with('ingredients')
         ->get()
@@ -118,7 +149,6 @@ public function getRecomendation(string $id) {
     $restrictedIngredientNames = $ingredientRestrictions->pluck('name');
     $restrictedIngredientIds = $ingredientRestrictions->pluck('id')->toArray();
 
-    // Query makanan dengan filter
     $recomenFoods = Food::with('restaurant', 'cuisine', 'ingredients', 'category')
         ->when($favIngredientIds->isNotEmpty(), function($query) use ($favIngredientIds) {
             $query->whereHas('ingredients', function ($q) use ($favIngredientIds) {
@@ -147,15 +177,14 @@ public function getRecomendation(string $id) {
         })
         ->get();
 
-    // Return JSON yang lengkap
-    return response()->json([
-        'user_fav_ingredients' => $favIngredients,
-        'user_disliked_ingredients' => $disIngredients,
-        'ingredient_restrictions' => $restrictedIngredientNames,
-        'user_fav_categories' => $favCategories,
-        'user_fav_cuisines' => $favCuisines,
-        'recommendations' => $recomenFoods,
-    ]);
-}
+        return response()->json([
+            'user_fav_ingredients' => $favIngredients,
+            'user_disliked_ingredients' => $disIngredients,
+            'ingredient_restrictions' => $restrictedIngredientNames,
+            'user_fav_categories' => $favCategories,
+            'user_fav_cuisines' => $favCuisines,
+            'recommendations' => $recomenFoods,
+        ]);
+    }   
 
 }

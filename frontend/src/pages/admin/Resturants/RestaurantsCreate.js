@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
@@ -18,12 +18,24 @@ const RestaurantsCreate = () => {
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [imageFile, setImageFile] = useState(null);
-
+    const [cuisines, setCuisines] = useState([]);
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setRestaurantsData({...restaurantsData, [name]: value});
     };
-
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/cuisines')
+            .then(
+                (cuisinesData) => {
+                    setCuisines(cuisinesData.data.data);
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log('Gagal memuat data cuisines: ', error);
+                }
+            );
+    }, []);
 
     // Untuk Gambar
     const handleFileChange = (event) => {
@@ -73,7 +85,7 @@ const RestaurantsCreate = () => {
             }, 1500);
         })
         .catch(error => {
-            console.error('Error adding restaurants:', error.response ? error.response.data : error);
+            console.error('Error adding restaurants:', error.response ? error.Response.data.data : error);
             setError('Failed to add restaurants. Please check the form data and try again.');
         });
     };
@@ -134,14 +146,25 @@ const RestaurantsCreate = () => {
                                 required />
                         </div>
                         <div className="form-group">
-                            <label>Cuisines_ID:</label>
-                            <input type="number"
+                            <label>Cuisine: </label>
+                            <select 
                                 name="cuisine_id"
                                 value={restaurantsData.cuisine_id}
                                 onChange={handleInputChange}
                                 className="form-control"
-                                required/>
-                        </div>
+                                required
+                            >
+                                <option
+                                    value="">Pilih Restaurants</option>
+                                    {cuisines.map(cuisine => 
+                                        (
+                                            <option key={cuisine.id}
+                                                value={cuisine.id}>{cuisine.name}
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
                         <div className="form-group">
                             <label>Rating:</label>
                             <input type="number" step="0.01"

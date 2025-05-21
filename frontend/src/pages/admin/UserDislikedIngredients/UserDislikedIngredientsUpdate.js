@@ -14,7 +14,7 @@ const UserDislikedIngredientsUpdate = () => {
     const getUserDislikedIngredientsData = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/user_disliked_ingredients/${id}`)
         .then(Response => {
-            const { user_preference_id, ingredient_id } = Response.data;
+            const { user_preference_id, ingredient_id } = Response.data.data;
             setUserDislikedIngredientsData({ user_preference_id, ingredient_id });
         })
         .catch(Error => {
@@ -38,7 +38,7 @@ const UserDislikedIngredientsUpdate = () => {
         event.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/user_disliked_ingredients/${id}`, userDislikedIngredientsData)
         .then(Response => {
-            alert('user_disliked_ingredients updated successfully: ', Response.data);
+            alert('user_disliked_ingredients updated successfully: ', Response.data.data);
             navigate('/admin/user_disliked_ingredients');
         })
         .catch(Error => {

@@ -20,8 +20,8 @@ const CuisineFoodsUpdate = () => {
             .then(
                 (resCui) => 
                     {
-                        setCuisine(resCui.data);
-                        console.log('Respon dari data cuisine: ', resCui.data);
+                        setCuisine(resCui.data.data);
+                        console.log('Respon dari data cuisine: ', resCui.data.data);
                     }
             )
             .catch(
@@ -34,8 +34,8 @@ const CuisineFoodsUpdate = () => {
             .then(
                 (resFoods) => 
                     {
-                        setFoods(resFoods.data);
-                        console.log('Respon dari data foods: ', resFoods.data);
+                        setFoods(resFoods.data.data);
+                        console.log('Respon dari data foods: ', resFoods.data.data);
                     }
             )
             .catch(

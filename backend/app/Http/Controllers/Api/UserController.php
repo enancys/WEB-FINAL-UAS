@@ -14,7 +14,13 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        return response()->json($user, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $user
+            ], 200
+        );
     }
 
     /**
@@ -29,7 +35,13 @@ class UserController extends Controller
             'role' => 'nullable|string|in:user,admin',
         ]);
         $user = User::create($validated);
-        return response()->json($user, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dibuat",
+                'data' => $user
+            ], 201
+        );
     }
 
     /**
@@ -38,7 +50,13 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = User::findOrFail($id);
-        return response()->json($user, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $user
+            ], 200
+        );
     }
 
     /**
@@ -54,7 +72,13 @@ class UserController extends Controller
         ]);
         $user = User::findOrFail($id);
         $user->update($validated);
-        return response()->json($user, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $user
+            ], 200
+        );
     }
 
     /**
@@ -64,6 +88,12 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return response()->json(['message' => 'User Berhasil Dihapus']);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
     }
 }

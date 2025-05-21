@@ -13,7 +13,7 @@ const TagsUpdate = () => {
     const getTags = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/tags/${id}`)
         .then(Response => {
-            const { name } = Response.data;
+            const { name } = Response.data.data;
             setTagsData({ name });
         })
         .catch(Error => {
@@ -37,7 +37,7 @@ const TagsUpdate = () => {
         event.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/tags/${id}`, tagsData)
         .then(Response => {
-            alert('tags updated successfully: ', Response.data);
+            alert('tags updated successfully: ', Response.data.data);
             navigate('/admin/tags');
         })
         .catch(Error => {

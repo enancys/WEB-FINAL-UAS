@@ -7,7 +7,7 @@ const UserDietaryRestrictionsIndex = () => {
     const loadUserDietaryRestrictions = () => {
         axios.get('http://127.0.0.1:8000/api/user_dietary_resctrictions')
         .then(Response => {
-            setUserDietaryRestrictionsData(Response.data);
+            setUserDietaryRestrictionsData(Response.data.data);
         })
         .catch(Error => {
             alert('Eror Fetching Data: ', Error);

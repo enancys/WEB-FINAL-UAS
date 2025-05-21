@@ -14,7 +14,7 @@ const RestrictionsUpdate = () => {
     const getRestrictions = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/restrictions/${id}`)
         .then(Response => {
-            const { name } = Response.data;
+            const { name } = Response.data.data;
             setrestrictionssData({ name });
         })
         .catch(Error => {
@@ -38,7 +38,7 @@ const RestrictionsUpdate = () => {
         event.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/restrictions/${id}`, restrictionsData)
         .then(Response => {
-            alert('restrictions updated successfully: ', Response.data);
+            alert('restrictions updated successfully: ', Response.data.data);
             navigate('/admin/restrictions');
         })
         .catch(Error => {

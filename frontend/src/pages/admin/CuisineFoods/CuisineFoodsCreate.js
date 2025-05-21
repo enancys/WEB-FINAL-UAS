@@ -6,8 +6,8 @@ const CuisineFoodsCreate = () => {
 
     const navigate = useNavigate();
     const [cuisineFoodData, setCuisineFoodData] = useState({
-        'cuisine_id': "",
-        'food_id': ""
+        cuisine_id: "",
+        food_id: ""
     });
     const [cuisine, setCuisine] = useState([]);
     const [foods, setFoods] = useState([]);
@@ -17,8 +17,7 @@ const CuisineFoodsCreate = () => {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setCuisineFoodData({
-            ...
-            cuisineFoodData, [name]: value
+            ...cuisineFoodData, [name]: value
         });
     };
 
@@ -26,8 +25,8 @@ const CuisineFoodsCreate = () => {
         axios.get('http://127.0.0.1:8000/api/cuisines')
             .then(
                 (resCui) => {
-                    setCuisine(resCui.data);
-                    console.log('Respon dari data cuisine: ', resCui.data);
+                    setCuisine(resCui.data.data);
+                    console.log('Respon dari data cuisine: ', resCui.data.data);
                 }
             )
             .catch(
@@ -38,8 +37,8 @@ const CuisineFoodsCreate = () => {
         axios.get('http://127.0.0.1:8000/api/foods')
             .then(
                 (resFoods) => {
-                    setFoods(resFoods.data);
-                    console.log('Respon dari data foods: ', resFoods.data);
+                    setFoods(resFoods.data.data);
+                    console.log('Respon dari data foods: ', resFoods.data.data);
                 }
             )
             .catch(
@@ -54,8 +53,8 @@ const CuisineFoodsCreate = () => {
         setError(null);
         setSuccessMessage(null);
 
-        axios.post('http://127.0.0.1:8000/api/cuisine_food')
-            .then(Response => {
+        axios.post('http://127.0.0.1:8000/api/cuisine_food', cuisineFoodData)
+            .then(() => {
                 setSuccessMessage('Data cuisine food berhasil ditambahkan');
                 setTimeout(() => {
                     navigate('/admin/cuisine_food');
@@ -69,11 +68,11 @@ const CuisineFoodsCreate = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-gray-800 mb-2">
+            <h1 className="h3 text-gray-800 mb-4">
                 New Data Cuisine Food
             </h1>
             <Link to="/admin/cuisine_food"
-                className="btn btn-secondary mb-2">
+                className="btn btn-secondary mb-3">
                     Back
                 </Link>
                 <div className="card shadow mb-4">
@@ -83,7 +82,7 @@ const CuisineFoodsCreate = () => {
 
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
-                                <label>cuisine: </label>
+                                <label>Cuisine: </label>
                                 <select 
                                     name="cuisine_id"
                                     value={cuisineFoodData.cuisine_id}

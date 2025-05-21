@@ -62,7 +62,7 @@ const FoodsCreate = () => {
             });
     
             setSuccessMessage('Food added successfully!');
-            console.log('Full response:', response.data);
+            console.log('Full response:', Response.data.data);
             setTimeout(() => navigate('/admin/foods'), 1500);
         } catch (error) {
             console.error('Error details:', error.response?.data || error.message);

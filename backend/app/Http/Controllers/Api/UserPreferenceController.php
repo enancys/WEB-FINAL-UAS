@@ -14,7 +14,13 @@ class UserPreferenceController extends Controller
     public function index()
     {
         $userPreference = UserPreference::with('user')->get();
-        return response()->json($userPreference, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $userPreference
+            ], 200
+        );
     }
 
     /**
@@ -26,7 +32,13 @@ class UserPreferenceController extends Controller
             'user_id' => 'required|integer|exists:users,id'
         ]);
         $userPreference = UserPreference::create($validated);
-        return response()->json($userPreference, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $userPreference
+            ], 201
+        );
     }
 
     /**
@@ -35,7 +47,13 @@ class UserPreferenceController extends Controller
     public function show(string $id)
     {
         $userPreference = UserPreference::findOrFail($id);
-        return response()->json($userPreference, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $userPreference
+            ], 200
+        );
     }
 
     /**
@@ -48,7 +66,13 @@ class UserPreferenceController extends Controller
         ]);
         $userPreference = UserPreference::findOrFail($id);
         $userPreference->update($validated);
-        return response()->json($userPreference, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $userPreference
+            ], 200
+        );
     }
 
     /**
@@ -58,7 +82,13 @@ class UserPreferenceController extends Controller
     {
         $userPreference = UserPreference::findOrFail($id);
         $userPreference->delete();
-        return response()->json(['message' => 'UserPreference berhasil Dihapus']);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
     }
 
     public function getByUser($userId)

@@ -7,7 +7,7 @@ const FoodIngredientsIndex = () => {
     const loadFood_ingredients = () => {
         axios.get('http://127.0.0.1:8000/api/food_ingredients')
             .then(Response => {
-                setFood_ingredients(Response.data);
+                setFood_ingredients(Response.data.data);
             })
             .catch(Error => {
                 alert('Eror Fetching Data: ', Error);
@@ -33,19 +33,25 @@ const FoodIngredientsIndex = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-bg-gray-800 mb-2">food_ingredients Data</h1>
+            <h1 className="h3 text-gray-800 mb-4">Food Ingredients Data</h1>
             <Link 
                 to="/admin/food_ingredients/create" 
-                className="btn btn-primary mb-2">
+                className="btn btn-primary mb-3">
+                    <i className="fas fa-plus mr-2"></i>
                     Create
             </Link>
-            <div className="card shadow mb-4">
+            <div className="card shadow border-0 rounded">
                 <div className="card-body">
                     <div 
-                        className="table-responsive" 
-                        style={{ overflowX: 'auto', maxHeight: '600px' }}>
+                        className="table-responsive"
+                        style={{
+                            maxHeight: "500px",
+                            overflowY: "auto",
+                            overflowX: "auto"
+                        }}
+                    >
                         <table 
-                            className="table table-bordered" 
+                            className="table table-bordered table-striped table-hover" 
                             width="100%" 
                             cellSpacing="0">
                             <thead>
@@ -57,7 +63,7 @@ const FoodIngredientsIndex = () => {
                                     <th>Ingredient Name</th>
                                     <th>Quantity</th>
                                     <th>Unit</th>
-                                    <th>Action</th>
+                                    <th style={{ width: "200px" }}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,10 +77,17 @@ const FoodIngredientsIndex = () => {
                                         <td>{food_ingredientss.quantity}</td>
                                         <td>{food_ingredientss.unit}</td>
                                         <td>
-                                            <Link to={`/admin/food_ingredients/update/${food_ingredientss.id}`} className="btn btn-sm btn-info">Edit</Link>
+                                            <Link to={`/admin/food_ingredients/update/${food_ingredientss.id}`} className="btn btn-sm btn-info mr-2"
+                                            >
+                                                <i className="fas fa-edit"></i>
+                                                Edit
+                                            </Link>
                                             <button 
                                                 onClick={() => handleDelete(food_ingredientss.food_id)}
-                                                className="btn btn-sm btn-danger ml-1">Delete</button>
+                                                className="btn btn-sm btn-danger ml-1">
+                                                    <i className="fas fa-trash"></i>
+                                                    Delete
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}

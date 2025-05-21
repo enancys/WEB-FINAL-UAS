@@ -14,7 +14,7 @@ const UserDietaryRestrictionsUpdate = () => {
     const getUserDietaryRestrictions = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/user_dietary_resctrictions/${id}`)
         .then(Response => {
-            const { user_preference_id, restriction_id } = Response.data;
+            const { user_preference_id, restriction_id } = Response.data.data;
             setUserDietaryRestrictionsData({ user_preference_id, restriction_id });
         })
         .catch(Error => {
@@ -38,7 +38,7 @@ const UserDietaryRestrictionsUpdate = () => {
         event.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/user_dietary_resctrictions/${id}`, userDietaryRestrictionsData)
         .then(Response => {
-            alert('user_dietary_resctrictions updated successfully: ', Response.data);
+            alert('user_dietary_resctrictions updated successfully: ', Response.data.data);
             navigate('/admin/user_dietary_restrictions');
         })
         .catch(Error => {

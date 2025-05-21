@@ -26,8 +26,7 @@ const IngredientRestrictionsCreate = () => {
         axios.get('http://127.0.0.1:8000/api/ingredients')
             .then(
                 (resIng) => {
-                    setIngredient(resIng.data);
-                    console.log('Respon dari data ingredient: ', resIng.data);
+                    setIngredient(resIng.data.data);
                 }
             )
             .catch(
@@ -38,8 +37,7 @@ const IngredientRestrictionsCreate = () => {
         axios.get('http://127.0.0.1:8000/api/restrictions')
             .then(
                 (resRes) => {
-                    setRestriction(resRes.data);
-                    console.log('Respon dari data restriction: ', resRes.data);
+                    setRestriction(resRes.data.data);
                 }
             )
             .catch(
@@ -54,8 +52,8 @@ const IngredientRestrictionsCreate = () => {
         setError(null);
         setSuccessMessage(null);
 
-        axios.post('http://127.0.0.1:8000/api/ingredient_restrictions')
-            .then(Response => {
+        axios.post('http://127.0.0.1:8000/api/ingredient_restrictions', ingredientRest)
+            .then(() => {
                 setSuccessMessage('Data ingredient Restriction berhasil ditambahkan');
                 setTimeout(() => {
                     navigate('/admin/ingredient_restrictions');

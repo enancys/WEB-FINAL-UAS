@@ -14,7 +14,12 @@ class CategoryController extends Controller
     public function index()
     {
         $category = Category::all();
-        return response()->json($category, 200);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Berhasil Dimuat',
+            'data' => $category
+        ], 200);
     }
 
     /**
@@ -26,7 +31,11 @@ class CategoryController extends Controller
             'name' => 'required|string',
         ]);
         $category = Category::create($validated);
-        return response()->json($category, 201);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil dibuat',
+            'data' => $category
+        ], 201);
     }
 
     /**
@@ -35,7 +44,11 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         $category = Category::findOrFail($id);
-        return response()->json($category, 200);
+        return response()->json([
+            'succsess' => true,
+            'message' => "Data dengan ID {$id}, Berhasil ditemukan",
+            'data' => $category
+        ], 200);
         
     }
 
@@ -51,7 +64,13 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->update($validated);
     
-        return response()->json($category, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data dengan ID {$id} Berhasil Ditemukan",
+                'data' => $category
+            ], 200
+        );
     }
 
     /**
@@ -61,6 +80,12 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();  
-        return response()->json(['message' => 'Kategori berhasil dihapus'], 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Kategori berhasil dihapus',
+                'data' => $category
+            ], 200
+        );
     }
 }

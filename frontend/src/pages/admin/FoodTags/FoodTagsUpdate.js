@@ -10,17 +10,46 @@ const FoodTagsUpdate = () => {
         food_id: "",
         tag_id: "",
     });
+    const [foods, setFoods] = useState([]);
+    const [tags, setTags] = useState([]);
 
     const getFoods = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/food_tags/${id}`)
         .then(Response => {
-            const { food_id, tag_id } = Response.data;
+            const { food_id, tag_id } = Response.data.data;
             setFoodTagsData({ food_id, tag_id });
         })
         .catch(Error => {
             alert('Error fetching food_tags details: ', Error);
         });
     }, [id]);
+
+        useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/tags')
+            .then(
+                (resTags) => {
+                    setTags(resTags.data.data);
+                    console.log('Respon dari data tags: ', resTags.data.data);
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log('Gagal memuat Data tags: ', error);
+                }
+            );
+        axios.get('http://127.0.0.1:8000/api/foods')
+            .then(
+                (resFoods) => {
+                    setFoods(resFoods.data.data);
+                    console.log('Respon dari data foods: ', resFoods.data.data);
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log('Gagal memuat data foods: ', error);
+                }
+            );
+    }, []);
 
     useEffect(() => {
         getFoods();
@@ -38,7 +67,7 @@ const FoodTagsUpdate = () => {
         event.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/food_tags/${id}`, foodTagsData)
         .then(Response => {
-            alert('food_tags updated successfully: ', Response.data);
+            alert('food_tags updated successfully: ', Response.data.data);
             navigate('/admin/food_tags');
         })
         .catch(Error => {
@@ -53,26 +82,50 @@ const FoodTagsUpdate = () => {
                 <div className="card-body">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label>Food ID:</label>
-                            <input type="text"
-                                name="food_id"
-                                value={foodTagsData.food_id}
-                                onChange={handleInputChange}
-                                className="form-control"
-                                required/>
-                        </div>
-                        <div className="form-group">
-                            <label>Tag ID:</label>
-                            <input type="text"
-                                name="tag_id"
-                                value={foodTagsData.tag_id}
-                                onChange={handleInputChange}
-                                className="form-control"
-                                required/>
-                        </div>
-                        <button type="submit"
-                            className="btn btn-primary">Update
-                        </button>
+                            <label>Tags: </label>
+                                <select 
+                                    name="tag_id"
+                                    value={foodTagsData.tag_id}
+                                    onChange={handleInputChange}
+                                    className="form-control"
+                                    required
+                                >
+                                    <option
+                                        value="">Pilih Tags</option>
+                                        {tags.map(tag => 
+                                            (
+                                                <option key={tag.id}
+                                                    value={tag.id}>{tag.name}
+                                                </option>
+                                            ))
+                                        }
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Food: </label>
+                                <select 
+                                    name="food_id"
+                                    value={foodTagsData.food_id}
+                                    onChange={handleInputChange}
+                                    className="form-control"
+                                    required
+                                >
+                                    <option
+                                        value="">Pilih Food</option>
+                                        {foods.map(food => 
+                                            (
+                                                <option key={food.id}
+                                                    value={food.id}>{food.name}
+                                                </option>
+                                            ))
+                                        }
+                                </select>
+                            </div>
+                            <button 
+                                type="submit" 
+                                className="btn btn-success">
+                                Submit
+                            </button>
                     </form>
                 </div>
             </div>

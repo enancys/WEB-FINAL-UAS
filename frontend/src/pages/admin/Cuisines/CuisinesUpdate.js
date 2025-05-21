@@ -14,7 +14,7 @@ const CuisinesUpdate = () => {
     const getCuisines = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/cuisines/${id}`)
         .then(Response => {
-            const { name, description } = Response.data;
+            const { name, description } = Response.data.data;
             setCuisinesData({ name, description });
         })
         .catch(Error => {
@@ -38,7 +38,7 @@ const CuisinesUpdate = () => {
         event.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/cuisines/${id}`, cuisinesData)
         .then(Response => {
-            alert('cuisines updated successfully: ', Response.data);
+            alert('cuisines updated successfully: ', Response.data.data);
             navigate('/admin/cuisines');
         })
         .catch(Error => {

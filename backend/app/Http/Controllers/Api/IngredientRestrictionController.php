@@ -32,7 +32,7 @@ class IngredientRestrictionController extends Controller
             [
                 'ingredient_id' => 'required|integer|exists:ingredients,id',
                 'restriction_id' => 'required|integer|exists:restrictions,id'
-            ], 201
+            ]
         );
 
         $ingredientRest = IngredientRestriction::create($validated);

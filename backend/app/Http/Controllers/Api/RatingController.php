@@ -14,7 +14,14 @@ class RatingController extends Controller
     public function index()
     {
         $rating = Rating::with('user', 'food', 'restaurant')->get();
-        return response()->json($rating, 200);
+                
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $rating
+            ], 200
+        );
     }
 
     /**
@@ -38,7 +45,13 @@ class RatingController extends Controller
         }
 
         $rating = Rating::create($validated);
-        return response()->json($rating, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dibuat",
+                'data' => $rating
+            ], 201
+        );
     }
 
     /**
@@ -47,7 +60,13 @@ class RatingController extends Controller
     public function show(string $id)
     {
         $rating = Rating::findOrFail($id);
-        return response()->json($rating, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $rating
+            ], 200
+        );
     }
 
     /**
@@ -71,7 +90,13 @@ class RatingController extends Controller
 
         $rating = Rating::findOrFail($id);
         $rating->update($validated);
-        return response()->json($rating, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $rating
+            ], 200
+        );
     }
 
     /**
@@ -81,6 +106,12 @@ class RatingController extends Controller
     {
         $rating = Rating::findOrFail($id);
         $rating->delete();
-        return response()->json(['message' => 'Rating Berhasil Dihapus', 200]);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
     }
 }

@@ -7,7 +7,7 @@ const RatingsIndex = () => {
     const loadRatings = () => {
         axios.get('http://127.0.0.1:8000/api/ratings')
         .then(Response => {
-            setRatings(Response.data);
+            setRatings(Response.data.data);
         })
         .catch(Error => {
             alert('Eror Fetching Data: ', Error);
@@ -33,12 +33,12 @@ const RatingsIndex = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-bg-gray-800 mb-2">ratings Data</h1>
-            <Link to="/admin/ratings/create" className="btn btn-primary mb-2">Create</Link>
-            <div className="card shadow mb-4">
+            <h1 className="h3 text-gray-800 mb-4">Ratings Data</h1>
+            <Link to="/admin/ratings/create" className="btn btn-primary mb-3"><i className="fas fa-plus mr-2"></i>Create</Link>
+            <div className="card shadow border-0 rounded">
                 <div className="card-body">
                     <div className="table-responsive" style={{ overflowX: 'auto', maxHeight: '600px' }}>
-                        <table className="table table-bordered" width="100%" cellSpacing="0">
+                        <table className="table table-bordered table-striped table-hover" width="100%" cellSpacing="0">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -51,7 +51,7 @@ const RatingsIndex = () => {
                                     <th>rating</th>
                                     <th>Review</th>
                                     <th>Image URL</th>
-                                    <th>Action</th>
+                                    <th style={{ width: "200px" }}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,19 +59,31 @@ const RatingsIndex = () => {
                                     <tr key={index}>
                                         <td>{ratingss.id}</td>
                                         <td>{ratingss.user?.id}</td>
-                                        <td>{ratingss.user?.name}</td>
+                                        <td style={{ wordBreak: "break-word", maxWidth: "150px", whiteSpace: "normal" }}>
+                                            {ratingss.user?.name}
+                                        </td>
                                         <td>{ratingss.food?.id}</td>
                                         <td>{ratingss.food?.name}</td>
                                         <td>{ratingss.restaurant?.id}</td>
                                         <td>{ratingss.restaurant?.name}</td>
                                         <td>{ratingss.rating}</td>
                                         <td>{ratingss.review}</td>
-                                        <td>{ratingss.image_url}</td>
+                                        {/* <td style={{ wordBreak: "break-word", maxWidth: "150px", whiteSpace: "normal" }}>
+                                            {ratingss.review}
+                                        </td> */}
+                                        <td style={{ wordBreak: "break-word", maxWidth: "150px", whiteSpace: "normal" }}>
+                                            {ratingss.image_url}
+                                        </td>
                                         <td>
-                                            <Link to={`/admin/ratings/update/${ratingss.id}`} className="btn btn-sm btn-info">Edit</Link>
+                                            <Link to={`/admin/ratings/update/${ratingss.id}`} className="btn btn-sm btn-info">
+                                            <i className="fas fa-edit"></i>
+                                                Edit</Link>
                                             <button 
                                                 onClick={() => handleDelete(ratingss.id)}
-                                                className="btn btn-sm btn-danger ml-1">Delete</button>
+                                                className="btn btn-sm btn-danger ml-1"> 
+                                                    <i className="fas fa-trash"></i>    
+                                                    Delete
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}

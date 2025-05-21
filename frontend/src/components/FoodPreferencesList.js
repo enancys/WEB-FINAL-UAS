@@ -13,7 +13,7 @@ const FoodPreferencesList = ({id}) => {
     useEffect(() => {   
         axios.get(`http://127.0.0.1:8000/api/recomendation/${id}`)
         .then((response) => {
-            console.log("Data dari API:", response.data); 
+            console.log("Data dari API:", response.data.data); 
             setFoods(response.data.recommendations);
         })
         .catch((error) => {
@@ -37,7 +37,7 @@ const FoodPreferencesList = ({id}) => {
                 </div>
     
                 <hr className="my-5" />
-    
+                    
                 <FoodList />
             </div>
             <ComponentFooter />

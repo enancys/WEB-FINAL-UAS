@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 
 const RestaurantFoodsIndex = () => {
     const [restaurant_foods, setRestaurant_foods] = useState([]);
+
     const loadRestaurant_foods = () => {
         axios.get('http://127.0.0.1:8000/api/restaurant_foods')
         .then(Response => {
-            setRestaurant_foods(Response.data);
+            setRestaurant_foods(Response.data.data);
         })
         .catch(Error => {
             alert('Eror Fetching Data: ', Error);
@@ -33,12 +34,12 @@ const RestaurantFoodsIndex = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-bg-gray-800 mb-2">restaurant_foods Data</h1>
-            <Link to="/admin/restaurant_foods/create" className="btn btn-primary mb-2">Create</Link>
-            <div className="card shadow mb-4">
+            <h1 className="h3 text-gray-800 mb-4">Restaurant Foods Data</h1>
+            <Link to="/admin/restaurant_foods/create" className="btn btn-primary mb-3"><i className="fas fa-plus mr-2"></i>Create</Link>
+            <div className="card shadow border-0 rounded">
                 <div className="card-body">
                     <div className="table-responsive" style={{ overflowX: 'auto', maxHeight: '600px' }}>
-                        <table className="table table-bordered" width="100%" cellSpacing="0">
+                        <table className="table table-bordered table-striped table-hover" width="100%" cellSpacing="0">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -47,7 +48,7 @@ const RestaurantFoodsIndex = () => {
                                     <th>Food ID</th>
                                     <th>Food Name</th>
                                     <th>Price</th>
-                                    <th>Action</th>
+                                    <th style={{ width: "200px" }}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,10 +61,16 @@ const RestaurantFoodsIndex = () => {
                                         <td>{restaurant_foodss.food?.name}</td>
                                         <td>{restaurant_foodss.price}</td>
                                         <td>
-                                            <Link to={`/admin/restaurant_foods/update/${restaurant_foodss.id}`} className="btn btn-sm btn-info">Edit</Link>
+                                            <Link to={`/admin/restaurant_foods/update/${restaurant_foodss.id}`} className="btn btn-sm btn-info">
+                                                <i className="fas fa-edit"></i>
+                                                Edit
+                                            </Link>
                                             <button 
                                                 onClick={() => handleDelete(restaurant_foodss.restaurant_id)}
-                                                className="btn btn-sm btn-danger ml-1">Delete</button>
+                                                className="btn btn-sm btn-danger ml-1">
+                                                    <i className="fas fa-trash"></i>    
+                                                    Delete
+                                                </button>
                                         </td>
                                     </tr>
                                 ))}

@@ -7,7 +7,7 @@ const CuisinesIndex = () => {
     const loadCuisines = () => {
         axios.get('http://127.0.0.1:8000/api/cuisines')
         .then(Response => {
-            setCuisines(Response.data);
+            setCuisines(Response.data.data);
         })
         .catch(Error => {
             alert('Eror Fetching Data: ', Error);
@@ -33,18 +33,21 @@ const CuisinesIndex = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-bg-gray-800 mb-2">Cuisines Data</h1>
-            <Link to="/admin/cuisines/create" className="btn btn-primary mb-2">Create</Link>
-            <div className="card shadow mb-4">
+            <h1 className="h3 text-gray-800 mb-4">Cuisines Data</h1>
+            <Link to="/admin/cuisines/create" className="btn btn-primary mb-3">
+                <i className="fas fa-plus mr-2"></i>
+                Create
+            </Link>
+            <div className="card shadow border-0 rounded">
                 <div className="card-body">
-                    <div className="table-table-responsive">
-                        <table className="table table-bordered" width="100%" cellSpacing="0">
+                    <div className="table-responsive">
+                        <table className="table table-bordered table-table-striped table-hover" width="100%" cellSpacing="0">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Description</th>
-                                    <th>Action</th>
+                                    <th style={{width: "200px"}}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,10 +57,16 @@ const CuisinesIndex = () => {
                                         <td>{cuisiness.name}</td>
                                         <td>{cuisiness.description}</td>
                                         <td>
-                                            <Link to={`/admin/cuisines/update/${cuisiness.id}`} className="btn btn-sm btn-info">Edit</Link>
+                                            <Link to={`/admin/cuisines/update/${cuisiness.id}`} className="btn btn-sm btn-info mr-2">
+                                                <i className="fas fa-edit"></i>
+                                                Edit
+                                            </Link>
                                             <button 
                                                 onClick={() => handleDelete(cuisiness.id)}
-                                                className="btn btn-sm btn-danger ml-1">Delete</button>
+                                                className="btn btn-sm btn-danger ml-1">
+                                                    <i className="fas fa-trash"></i>
+                                                    Delete
+                                                </button>
                                         </td>
                                     </tr>
                                 ))}

@@ -37,21 +37,20 @@ const CategoryFoodsIndex = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-bg-gray-800 mb-2">
-                categoryFoodsData Data
+            <h1 className="h3 mb-4 text-gray-800">
+                Category Foods Data
             </h1>
             <Link 
                 to="/admin/category_food/create" 
-                className="btn btn-primary mb-2">
+                className="btn btn-primary mb-3">
+                <i className="fas fa-plus mr-2"></i>
                 Create
             </Link>
-            <div className="card shadow mb-4">
+            <div className="card shadow border-0 rounded">
                 <div className="card-body">
-                    <div 
-                        className="table-responsive" 
-                        style={{ overflowX: 'auto', maxHeight: '600px' }}>
+                    <div className="table-responsive" >
                         <table 
-                            className="table table-bordered" 
+                            className="table table-bordered table-striped" 
                             width="100%" 
                             cellSpacing="0">
                             <thead>
@@ -61,7 +60,7 @@ const CategoryFoodsIndex = () => {
                                     <th>Food Name</th>
                                     <th>Category Id</th>
                                     <th>Category Name</th>
-                                    <th>Action</th>
+                                    <th style={{ width: "200px"}}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,12 +74,17 @@ const CategoryFoodsIndex = () => {
                                         <td>
                                             <Link 
                                                 to={`/admin/category_food/update/${categoryFoodData.id}`} 
-                                                className="btn btn-sm btn-info">
+                                                className="btn btn-sm btn-info mr-2">
+                                                    <i className="fas fa-edit"></i>
                                                     Edit
                                             </Link>
                                             <button 
                                                 onClick={() => handleDelete(categoryFoodData.food_id)}
-                                                className="btn btn-sm btn-danger ml-1">Delete</button>
+                                                className="btn btn-sm btn-danger ml-1"
+                                                >
+                                                    <i className="fas fa-trash"></i>
+                                                    Delete
+                                                    </button>
                                         </td>
                                     </tr>
                                 ))}

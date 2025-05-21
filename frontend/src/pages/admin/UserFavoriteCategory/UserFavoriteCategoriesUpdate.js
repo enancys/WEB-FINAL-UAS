@@ -14,7 +14,7 @@ const UserUpdate = () => {
     const getUser = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/user_favorite_category/${id}`)
         .then(Response => {
-            const { user_preference_id, category_id } = Response.data;
+            const { user_preference_id, category_id } = Response.data.data;
             setUserData({ user_preference_id, category_id });
         })
         .catch(Error => {
@@ -38,7 +38,7 @@ const UserUpdate = () => {
         event.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/user_favorite_category/${id}`, userData)
         .then(Response => {
-            alert('User updated successfully: ', Response.data);
+            alert('User updated successfully: ', Response.data.data);
             navigate('/admin/user_favorite_categories');
         })
         .catch(Error => {

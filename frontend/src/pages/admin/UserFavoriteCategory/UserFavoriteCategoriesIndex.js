@@ -7,7 +7,7 @@ const UserFavoriteCategoriesIndex = () => {
     const loadCategory = () => {
         axios.get('http://127.0.0.1:8000/api/user_favorite_category')
         .then(Response => {
-            setFavCategory(Response.data);
+            setFavCategory(Response.data.data);
         })
         .catch((error) => {
             console.error('Error Fetching Data:', error); // Ini lebih aman

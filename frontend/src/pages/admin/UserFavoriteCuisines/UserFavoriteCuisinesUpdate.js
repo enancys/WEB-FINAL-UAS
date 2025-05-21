@@ -14,7 +14,7 @@ const UserFavoriteCuisinesUpdate = () => {
     const getUserFavoriteCuisinesData = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/user_favorite_cuisines/${id}`)
         .then(Response => {
-            const { user_preference_id, cuisine_id } = Response.data;
+            const { user_preference_id, cuisine_id } = Response.data.data;
             setUserFavoriteCuisinesData({ user_preference_id, cuisine_id });
         })
         .catch(Error => {
@@ -38,7 +38,7 @@ const UserFavoriteCuisinesUpdate = () => {
         event.preventDefault();
         axios.put(`http://127.0.0.1:8000/api/user_favorite_cuisines/${id}`, userFavoriteCuisinesData)
         .then(Response => {
-            alert('user_favorite_cuisines updated successfully: ', Response.data);
+            alert('user_favorite_cuisines updated successfully: ', Response.data.data);
             navigate('/admin/user_favorite_cuisines');
         })
         .catch(Error => {

@@ -23,13 +23,13 @@ const FoodIngredientsCreate = () => {
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/foods')
         .then((resFood) => {
-            setFoods(resFood.data);
-            console.log('Respon data foods ', resFood.data);
+            setFoods(resFood.data.data);
+            console.log('Respon data foods ', resFood.data.data);
         })
         .catch((erorr) => console.log("gagal Memuat Data Foods", erorr));
 
         axios.get('http://127.0.0.1:8000/api/ingredients')
-        .then((resIngredient) => setIngredients(resIngredient.data))
+        .then((resIngredient) => setIngredients(resIngredient.data.data))
         .catch((erorr) => console.log("Gagal memuat data ingredient", erorr));
     }, []);
 

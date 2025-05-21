@@ -10,11 +10,13 @@ const RestaurantDetail = () => {
     const [foods, setFoods] = useState([]);
     const [restaurant, setRestaurant] = useState({});
     const [searchQuery, setSearchQuery] = useState('');
+    const [sortBy, setSortBy] = useState('name');
+    const [sortOrder, SetSortOrder] = useState('asc');
 
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/restaurant_foods')
             .then((res) => {
-                const filtered = res.data.filter(item => item.restaurant_id.toString() === id);
+                const filtered = res.data.data.filter(item => item.restaurant_id.toString() === id);
                 
                 setFoods(filtered.map(item => ({
                     ...item.food,
@@ -41,6 +43,25 @@ const RestaurantDetail = () => {
         food.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         food.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    const sortedFoods = [...filteredFoods].sort((a, b) => {
+        let varA = a[sortBy];
+        let varB = b[sortBy];
+
+        if(sortBy === 'rating') {
+            varA = parseFloat(a.restaurant?.rating || 0);
+            varB = parseFloat(b.restaurant?.rating || 0);
+        } else if(sortBy === 'price') {
+            varA = parseFloat(a.price || 0);
+            varB = parseFloat(b.price || 0);
+        } else {
+            varA = a[sortBy]?.toString().toLowerCase() || '';
+            varB = b[sortBy]?.toString().toLowerCase() || '';
+        }
+        if(varA < varB) return sortOrder === 'asc' ? -1 : 1;
+        if(varA < varB) return sortOrder === 'asc' ? 1 : -1;
+        return 0;
+    })
 
     return (
         <div>
@@ -79,7 +100,6 @@ const RestaurantDetail = () => {
                     <p className="text-muted">Memuat informasi restoran...</p>
                 )}
 
-                {/* Pencarian Makanan */}
                 <div className="mb-4">
                     <input
                         type="text"
@@ -90,10 +110,31 @@ const RestaurantDetail = () => {
                     />
                 </div>
 
+                <div className="d-flex mb-4 gap-3">
+                    <select
+                        className="form-select w-auto"
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                    >
+                        <option value="name">Nama</option>
+                        <option value="price">harga</option>
+                        <option value="rating">Rating</option>
+                    </select>
+                    <select
+                        className="form-select w-auto"
+                        value={sortOrder}
+                        onChange={(e) => SetSortOrder(e.target.value)}
+                    >
+                        <option value="asc">Naik</option>
+                        <option value="desc">Turun</option>
+
+                    </select>
+                </div>
+
                 <h4 className="mb-3">Menu yang tersedia:</h4>
                 <div className="row">
-                    {filteredFoods.length > 0 ? (
-                        filteredFoods.map(food => (
+                    {sortedFoods.length > 0 ? (
+                        sortedFoods.map(food => (
                             <FoodCard key={food.id} food={food} />
                         ))
                     ) : (

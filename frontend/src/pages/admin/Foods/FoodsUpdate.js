@@ -22,7 +22,7 @@ const FoodsUpdate = () => {
     const getFoods = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/foods/${id}`)
         .then(Response => {
-            const { name, description, price, image_url, restaurant_id, cuisine_id  } = Response.data;
+            const { name, description, price, image_url, restaurant_id, cuisine_id  } = Response.data.data;
             setFoodsData({ name, description, price, image_url, restaurant_id, cuisine_id });
         })
         .catch(Error => {
@@ -87,7 +87,7 @@ const FoodsUpdate = () => {
             }, 1500);
         })
         .catch(error => {
-            console.error('Error updating foods:', error.response ? error.response.data : error);
+            console.error('Error updating foods:', error.response ? error.Response.data.data : error);
             setError('Failed to update foods. Please check the form data and try again.');
         });
     };

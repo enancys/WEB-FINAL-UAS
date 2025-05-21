@@ -41,21 +41,21 @@ const IngredientRestrictionsIndex = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-bg-gray-800 mb-2">
-                ingredient restrictions Foods Data
+            <h1 className="h3 mb-4 text-gray-800">
+                Ingredient Restrictions Foods Data
             </h1>
             <Link 
                 to="/admin/ingredient_restrictions/create" 
-                className="btn btn-primary mb-2">
+                className="btn btn-primary mb-3">
                 Create
             </Link>
-            <div className="card shadow mb-4">
+            <div className="card shadow border-0 rounded">
                 <div className="card-body">
                     <div 
                         className="table-responsive" 
                         style={{ overflowX: 'auto', maxHeight: '600px' }}>
                         <table 
-                            className="table table-bordered" 
+                            className="table table-bordered table-striped table-hover" 
                             width="100%" 
                             cellSpacing="0">
                             <thead>
@@ -65,7 +65,7 @@ const IngredientRestrictionsIndex = () => {
                                     <th>Ingredient Name</th>
                                     <th>Restriction Id</th>
                                     <th>Restriction Name</th>
-                                    <th>Action</th>
+                                    <th style={{ width: "200px" }}>Action</th>                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,11 +80,16 @@ const IngredientRestrictionsIndex = () => {
                                             <Link 
                                                 to={`/admin/ingredient_restrictions/update/${ingResData.id}`} 
                                                 className="btn btn-sm btn-info">
+                                                    <i className="fas fa-edit"></i>
+                                                    
                                                     Edit
                                             </Link>
                                             <button 
-                                                onClick={() => handleDelete(ingResData.food_id)}
-                                                className="btn btn-sm btn-danger ml-1">Delete</button>
+                                                onClick={() => handleDelete(ingResData.id)}
+                                                className="btn btn-sm btn-danger ml-1">
+                                                    <i className="fas fa-trash"></i>
+                                                    Delete
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}

@@ -14,7 +14,13 @@ class RestrictionController extends Controller
     public function index()
     {
         $restriction = Restriction::all();
-        return response()->json($restriction, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $restriction
+            ], 200
+        );
     }
 
     /**
@@ -26,7 +32,13 @@ class RestrictionController extends Controller
             'name' => 'required|string'
         ]);
         $restriction = Restriction::create($validated);
-        return response()->json($restriction, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dibuat",
+                'data' => $restriction
+            ], 201
+        );
     }
 
     /**
@@ -35,7 +47,13 @@ class RestrictionController extends Controller
     public function show(string $id)
     {
         $restriction = Restriction::findOrFail($id);
-        return response()->json($restriction, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $restriction
+            ], 200
+        );
     }
 
     /**
@@ -48,7 +66,13 @@ class RestrictionController extends Controller
         ]);
         $restriction = Restriction::findOrFail($id);
         $restriction->update($restriction);
-        return response()->json($restriction, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $restriction
+            ], 200
+        );
     }
 
     /**
@@ -58,6 +82,12 @@ class RestrictionController extends Controller
     {
         $restriction = Restriction::findOrFail($id);
         $restriction->delete();
-        return response()->json($restriction, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
     }
 }

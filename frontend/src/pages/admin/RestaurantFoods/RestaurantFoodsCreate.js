@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
@@ -9,9 +9,35 @@ const RestaurantFoodsCreate = () => {
         food_id: "",
         price: "",
     });
+    const [restaurants, setRestaurants] = useState([]);
+    const [foods, setFoods] = useState([]);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
 
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/foods')
+            .then(
+                (resFoods) => {
+                    setFoods(resFoods.data.data);
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log('Gagal memuat data foods: ', error);
+                }
+            );
+        axios.get('http://127.0.0.1:8000/api/restaurants')
+            .then(
+                (resRest) => {
+                    setRestaurants(resRest.data.data);
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log('Gagal memuat data restaurant: ', error);
+                }
+            );
+    }, []);
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setRestaurant_foodsData({...restaurant_foodsData, [name]: value});
@@ -45,34 +71,58 @@ const RestaurantFoodsCreate = () => {
                     {successMessage && <div className="alert alert-success">{successMessage}</div>}
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label>Restaurant_id:</label>
-                            <input type="text"
-                                name="restaurant_id"
-                                value={restaurant_foodsData.restaurant_id}
-                                onChange={handleInputChange}
-                                className="form-control"
-                                required />
-                        </div>
+                                <label>Restaurant: </label>
+                                <select 
+                                    name="restaurant_id"
+                                    value={restaurant_foodsData.restaurant_id}
+                                    onChange={handleInputChange}
+                                    className="form-control"
+                                    required
+                                >
+                                    <option
+                                        value="">Pilih Restaurants</option>
+                                        {restaurants.map(restaurant => 
+                                            (
+                                                <option key={restaurant.id}
+                                                    value={restaurant.id}>{restaurant.name}
+                                                </option>
+                                            ))
+                                        }
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Food: </label>
+                                <select 
+                                    name="food_id"
+                                    value={restaurant_foodsData.food_id}
+                                    onChange={handleInputChange}
+                                    className="form-control"
+                                    required
+                                >
+                                    <option
+                                        value="">Pilih Food</option>
+                                        {foods.map(food => 
+                                            (
+                                                <option key={food.id}
+                                                    value={food.id}>{food.name}
+                                                </option>
+                                            ))
+                                        }
+                                </select>
+                            </div>
                         <div className="form-group">
-                            <label>Food_id:</label>
-                            <input type="text"
-                                name="food_id"
-                                value={restaurant_foodsData.food_id}
-                                onChange={handleInputChange}
-                                className="form-control"
-                                required />
-                        </div>
-                        <div className="form-group">
-                            <label>price:</label>
-                            <input type="number"
+                            <label>Price:</label>
+                            <input type="numeric"
                                 name="price"
-                                step="0.01"
-                                value={restaurant_foodsData.price}
                                 onChange={handleInputChange}
                                 className="form-control"
                                 required/>
                         </div>
-                        <button type="submit" className="btn btn-success">Submit</button>
+                        <button 
+                            type="submit" 
+                            className="btn btn-success">
+                            Submit
+                        </button>
                     </form>
                 </div>
             </div>

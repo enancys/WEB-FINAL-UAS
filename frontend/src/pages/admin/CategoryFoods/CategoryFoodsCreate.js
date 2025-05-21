@@ -26,8 +26,8 @@ const CategoryFoodsCreate = () => {
         axios.get('http://127.0.0.1:8000/api/categories')
             .then(
                 (resCategory) => {
-                    setCategory(resCategory.data);
-                    console.log('Respon dari data category: ', resCategory.data);
+                    setCategory(resCategory.data.data);
+                    console.log('Respon dari data category: ', resCategory.data.data);
                 }
             )
             .catch(
@@ -38,8 +38,8 @@ const CategoryFoodsCreate = () => {
         axios.get('http://127.0.0.1:8000/api/foods')
             .then(
                 (resFoods) => {
-                    setFoods(resFoods.data);
-                    console.log('Respon dari data foods: ', resFoods.data);
+                    setFoods(resFoods.data.data);
+                    console.log('Respon dari data foods: ', resFoods.data.data);
                 }
             )
             .catch(
@@ -54,7 +54,7 @@ const CategoryFoodsCreate = () => {
         setError(null);
         setSuccessMessage(null);
 
-        axios.post('http://127.0.0.1:8000/api/category_food')
+        axios.post('http://127.0.0.1:8000/api/category_food', categoryFoodsData)
             .then(Response => {
                 setSuccessMessage('Data category food berhasil ditambahkan');
                 setTimeout(() => {
@@ -69,11 +69,11 @@ const CategoryFoodsCreate = () => {
 
     return (
         <div className="container-fluid">
-            <h1 className="h3 text-gray-800 mb-2">
+            <h1 className="h3 text-gray-800 mb-3">
                 New Data Category Food
             </h1>
             <Link to="/admin/category_food"
-                className="btn btn-secondary mb-2">
+                className="btn btn-secondary mb-3">
                     Back
                 </Link>
                 <div className="card shadow mb-4">

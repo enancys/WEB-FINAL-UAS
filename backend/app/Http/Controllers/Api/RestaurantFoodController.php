@@ -18,7 +18,14 @@ class RestaurantFoodController extends Controller
                 'food', 
                 'food.cuisine', 
                 'food.ingredients')->get();
-        return response()->json($restaurantFood, 200);
+                
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dimuat",
+                'data' => $restaurantFood
+            ], 200
+        );
     }
 
     /**
@@ -32,7 +39,13 @@ class RestaurantFoodController extends Controller
             'price' => 'required|numeric'
         ]);
         $restaurantFood = RestaurantFood::create($validated);
-        return response()->json($restaurantFood, 201);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Berhasil Dibuat",
+                'data' => $restaurantFood
+            ], 201
+        );
     }
 
     /**
@@ -40,8 +53,14 @@ class RestaurantFoodController extends Controller
      */
     public function show(string $id)
     {
-        $restaurant = RestaurantFood::findOrFail($id);
-        return response()->json($restaurant, 200);
+        $restaurantFood = RestaurantFood::findOrFail($id);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dimuat",
+                'data' => $restaurantFood
+            ], 200
+        );
     }
 
     /**
@@ -57,7 +76,13 @@ class RestaurantFoodController extends Controller
 
         $restaurantFood = RestaurantFood::findOrFail($id);
         $restaurantFood->update($validated);
-        return response()->json($restaurantFood, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Diupdate",
+                'data' => $restaurantFood
+            ], 200
+        );
     }
 
     /**
@@ -67,6 +92,12 @@ class RestaurantFoodController extends Controller
     {
         $restaurantFood = RestaurantFood::findOrFail($id);
         $restaurantFood->delete();
-        return response()->json(['message' => 'RestaurantFood Berhasil Dihapus', 200]);
+                return response()->json(
+            [
+                'success' => true,
+                'message' => "Data Dengan ID {$id} Berhasil Dihapus",
+                'data' => null
+            ], 200
+        );
     }
 }

@@ -14,6 +14,9 @@ const RatingsUpdate = () => {
         review: "",
         image_url: ""
     });
+    const [users, setUsers] = useState([]);
+    const [foods, setFoods] = useState([]);
+    const [restaurants, setRestaurants] = useState([]);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [imageFile, setImageFile] = useState(null);
@@ -21,13 +24,49 @@ const RatingsUpdate = () => {
     const getRatings = useCallback(() => {
         axios.get(`http://127.0.0.1:8000/api/ratings/${id}`)
         .then(Response => {
-            const { user_id, food_id, restaurant_id, rating, review , image_url} = Response.data;
+            const { user_id, food_id, restaurant_id, rating, review , image_url} = Response.data.data;
             setRatingsData({ user_id, food_id, restaurant_id, rating, review, image_url });
         })
         .catch(Error => {
             alert('Error fetching ratings details: ', Error);
         });
     }, [id]);
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/users')
+            .then(
+                (resUsers) => {
+                    setUsers(resUsers.data.data);
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log('Gagal memuat Data User: ', error);
+                }
+            );
+        axios.get('http://127.0.0.1:8000/api/foods')
+            .then(
+                (resFoods) => {
+                    setFoods(resFoods.data.data);
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log('Gagal memuat data foods: ', error);
+                }
+            );
+        axios.get('http://127.0.0.1:8000/api/restaurants')
+            .then(
+                (resRest) => {
+                    setRestaurants(resRest.data.data);
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log('Gagal memuat data restaurant: ', error);
+                }
+            );
+    }, []);
 
     useEffect(() => {
         getRatings();
@@ -77,7 +116,7 @@ const RatingsUpdate = () => {
                 }, 1500);
             })
             .catch(error => {
-                console.error('Error updating ratings:', error.response ? error.response.data : error);
+                console.error('Error updating ratings:', error.response ? error.Response.data.data : error);
                 setError('Failed to update ratings. Please check the form data and try again.');
             });
         };
@@ -89,60 +128,106 @@ const RatingsUpdate = () => {
                 <div className="card-body">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label>User_id:</label>
-                            <input type="text"
-                                name="user_id"
-                                value={ratingsData.user_id}
-                                onChange={handleInputChange}
-                                className="form-control"
-                                required/>
-                        </div>
+                                <label>User: </label>
+                                <select 
+                                    name="user_id"
+                                    value={ratingsData.user_id}
+                                    onChange={handleInputChange}
+                                    className="form-control"
+                                    required
+                                >
+                                    <option
+                                        value="">Pilih User</option>
+                                        {users.map(user => 
+                                            (
+                                                <option key={user.id}
+                                                    value={user.id}>{user.name}
+                                                </option>
+                                            ))
+                                        }
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Food: </label>
+                                <select 
+                                    name="food_id"
+                                    value={ratingsData.food_id}
+                                    onChange={handleInputChange}
+                                    className="form-control"
+                                    required
+                                >
+                                    <option
+                                        value="">Pilih Food</option>
+                                        {foods.map(food => 
+                                            (
+                                                <option key={food.id}
+                                                    value={food.id}>{food.name}
+                                                </option>
+                                            ))
+                                        }
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Restaurant: </label>
+                                <select 
+                                    name="restaurant_id"
+                                    value={ratingsData.restaurant_id}
+                                    onChange={handleInputChange}
+                                    className="form-control"
+                                    required
+                                >
+                                    <option
+                                        value="">Pilih Restaurant</option>
+                                        {restaurants.map(restaurant => 
+                                            (
+                                                <option key={restaurant.id}
+                                                    value={restaurant.id}>{restaurant.name}
+                                                </option>
+                                            ))
+                                        }
+                                </select>
+                            </div>
                         <div className="form-group">
-                            <label>Food_id:</label>
-                            <input type="text"
-                                name="food_id"
-                                value={ratingsData.food_id}
-                                onChange={handleInputChange}
-                                className="form-control"
-                                required/>
-                        </div>
-                        <div className="form-group">
-                            <label>Restaurant ID:</label>
-                            <input type="text"
-                                name="restaurant_id"
-                                value={ratingsData.restaurant_id}
-                                onChange={handleInputChange}
-                                className="form-control"
-                                required/>
-                        </div>
-                        <div className="form-group">
-                            <label>rating:</label>
+                            <label>Rating:</label>
                             <input type="text"
                                 name="rating"
-                                value={ratingsData.rating}
                                 onChange={handleInputChange}
+                                value={ratingsData.rating}
                                 className="form-control"
                                 required/>
                         </div>
                         <div className="form-group">
-                            <label>review:</label>
+                            <label>Review:</label>
                             <input type="text"
                                 name="review"
-                                value={ratingsData.review}
                                 onChange={handleInputChange}
+                                value={ratingsData.review}
                                 className="form-control"
                                 required/>
                         </div>
                         <div className="form-group">
                             <label>Image Url:</label>
+                            {ratingsData.image_url && (
+                                <div className="mb-3">
+                                    <label>Current Image:</label><br />
+                                    <img
+                                        src={`http://localhost:8000${ratingsData.image_url}`}
+                                        alt="Current"
+                                        style={{ maxWidth: '200px', height: 'auto' }}
+                                    />
+                                </div>
+                            )}
+
                             <input type="file"
                                 name="image_url"
                                 onChange={handleFileChange}
                                 className="form-control"
-                                required/>
+                            />
                         </div>
-                        <button type="submit"
-                            className="btn btn-primary">Update
+                        <button 
+                            type="submit" 
+                            className="btn btn-success">
+                            Submit
                         </button>
                     </form>
                 </div>
