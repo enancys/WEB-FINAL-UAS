@@ -50,6 +50,6 @@ class CuisineFoodController extends Controller
     public function destroy($id) {
         $cuisineFood = CuisineFood::findOrFail($id);
         $cuisineFood->delete();
-        redirect('cuisine_foods')->with('success', 'Cuisine Foods Berhasil Dihapus');
+        return redirect('cuisine_foods')->with('success', 'Cuisine Foods Berhasil Dihapus');
     }
 }

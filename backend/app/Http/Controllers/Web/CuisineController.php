@@ -19,11 +19,14 @@ class CuisineController extends Controller
 
     public function store(Request $request) {
         $request->validate([
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'description' =>'required|string'
         ]);
 
         $cuisine = Cuisine::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'description' => $request->description
+
         ]);
 
         return redirect('cuisines')->with('success', 'Cuisines Berhasil Dibuat');
@@ -36,12 +39,14 @@ class CuisineController extends Controller
 
     public function update(Request $request, $id) {
         $request->validate([
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'description' =>'required|string'
         ]);
 
         $cuisine = Cuisine::findOrFail($id);
         $cuisine->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'description' => $request->description
         ]);
 
         return redirect('cuisines')->with('success', 'Cuisine Berhasil Diperbarui');

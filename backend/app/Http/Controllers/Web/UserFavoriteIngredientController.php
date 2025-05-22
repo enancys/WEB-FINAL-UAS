@@ -50,6 +50,6 @@ class UserFavoriteIngredientController extends Controller
     public function destroy($id) {
         $userFavoriteIngredient = UserFavoriteIngredient::findOrFail($id);
         $userFavoriteIngredient->delete();
-        redirect('user_disliked_ingredients')->with('success', 'User Favorite Ingredient Berhasil Dihapus');
+        return redirect('user_disliked_ingredients')->with('success', 'User Favorite Ingredient Berhasil Dihapus');
     }
 }

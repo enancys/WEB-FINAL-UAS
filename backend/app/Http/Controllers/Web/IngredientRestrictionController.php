@@ -22,7 +22,7 @@ class IngredientRestrictionController extends Controller
     public function store(Request $request) {
         $request->validate([
             'ingredient_id' => 'required|integer|exists:ingredients,id',
-            'restriction_id' => 'required|initeger|exists:restrictions,id'
+            'restriction_id' => 'required|integer|exists:restrictions,id'
         ]);
         $ingredientRestriction = IngredientRestriction::create([
             'ingredient_id' => $request->ingredient_id,
@@ -34,7 +34,7 @@ class IngredientRestrictionController extends Controller
     public function update(Request $request, $id) {
         $request->validate([
             'ingredient_id' => 'required|integer|exists:ingredients,id',
-            'restriction_id' => 'required|initeger|exists:restrictions,id'
+            'restriction_id' => 'required|integer|exists:restrictions,id'
         ]);
 
         $ingredientRestriction = IngredientRestriction::findOrFail($id);

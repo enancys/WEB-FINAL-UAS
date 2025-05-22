@@ -50,6 +50,6 @@ class UserDietaryRestrictionController extends Controller
     public function destroy($id) {
         $userDietaryRestriction = UserDietaryResctriction::findOrFail($id);
         $userDietaryRestriction->delete();
-        redirect('user_dietary_restrictions')->with('success', 'User Dietary Restriction Berhasil Dihapus');
+        return redirect('user_dietary_restrictions')->with('success', 'User Dietary Restriction Berhasil Dihapus');
     }
 }

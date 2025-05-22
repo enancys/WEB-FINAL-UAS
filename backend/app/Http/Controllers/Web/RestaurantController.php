@@ -30,7 +30,7 @@ class RestaurantController extends Controller
             'image_url' => 'required|string|max:255',
         ]);
 
-        $restaurant = restaurant::create([
+        $restaurant = Restaurant::create([
             'name' => $request->name,
             'location' => $request->location,
             'phone' => $request->phone,

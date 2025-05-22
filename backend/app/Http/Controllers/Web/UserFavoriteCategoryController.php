@@ -50,6 +50,6 @@ class UserFavoriteCategoryController extends Controller
     public function destroy($id) {
         $userFavoriteCategory = UserFavoriteCategory::findOrFail($id);
         $userFavoriteCategory->delete();
-        redirect('user_favorite_categories')->with('success', 'User Favorite Category Berhasil Dihapus');
+        return redirect('user_favorite_categories')->with('success', 'User Favorite Category Berhasil Dihapus');
     }
 }

@@ -50,6 +50,6 @@ class UserFavoriteCuisineController extends Controller
     public function destroy($id) {
         $userFavoriteCuisine = UserFavoriteCuisine::findOrFail($id);
         $userFavoriteCuisine->delete();
-        redirect('user_favorite_cuisines')->with('success', 'User Favorite Cuisine Berhasil Dihapus');
+        return redirect('user_favorite_cuisines')->with('success', 'User Favorite Cuisine Berhasil Dihapus');
     }
 }
