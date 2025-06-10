@@ -33,6 +33,7 @@ class UserController extends Controller
             'email' => 'required|string',
             'password' => 'required|string',
             'role' => 'nullable|string|in:user,admin',
+            'seller' => 'nullable|boolean',
         ]);
         $user = User::create($validated);
         return response()->json(
@@ -69,6 +70,7 @@ class UserController extends Controller
             'email' => 'required|string',
             'password' => 'required|string',
             'role' => 'nullable|string|in:user,admin',
+            'seller' => 'nullable|boolean',
         ]);
         $user = User::findOrFail($id);
         $user->update($validated);

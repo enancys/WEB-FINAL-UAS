@@ -5,18 +5,14 @@ import LoginPage from './pages/auth/LoginPage';
 import RoutesConfig from './RoutesConfig.js';
 import LandingPage from './pages/user/LandingPage.js';
 import RegisterPage from './pages/auth/RegisterPage.js';
-// import { useContext } from 'react';
-// import { AuthContext } from './contexts/AuthContext'; 
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthContext, AuthProvider } from './contexts/AuthContext'; 
 import ProfilePreferences from './pages/user/ProfilePreferences.js';
 import RestaurantDetail from './components/user/Restaurant/RestaurantDetail.js';
-// import FoodPreferencesCard from './components/FoodPreferencesCard.js';
 import FoodPrefrencesList from './components/FoodPreferencesList.js';
 import { useContext, useEffect, useState } from 'react';
 import AboutMePage from './pages/user/AboutMePage.js';
-// import axios from 'axios';
-
+import RestaurantPage from './pages/user/RestaurantPage.js';
 
 
 const AppRoutes = () => {
@@ -60,11 +56,13 @@ const AppRoutes = () => {
         <Route path='/aboutMe' element= {<AboutMePage/>} />
 
         <Route path="/" element={<LandingPage />} />
-        <Route path="/profilPreference" element={<ProfilePreferences/>} />
+        <Route path="/profile_preference" element={<ProfilePreferences/>} />
         <Route path="/restaurant/:id" element={<RestaurantDetail />} />
         {/* <Route path="/foods" element={<FoodPrefrencesList id={user.user_preference_id} />} /> */}
         <Route path="/foods" 
               element={ <FoodPrefrencesList id={userPreferenceId}/>} />
+        <Route path="/restaurants" 
+              element={ <RestaurantPage/>} />
 
 
 

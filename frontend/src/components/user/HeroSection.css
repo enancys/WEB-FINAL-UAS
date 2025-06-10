@@ -1,101 +1,58 @@
-/* Navbar Styles */
-.navbar {
-  font-family: 'Montserrat', sans-serif;
-  padding: 0.8rem 1.5rem;
-}
-
-.navbar .navbar-brand {
-  font-weight: bolder;
-  font-size: 1.8rem;
-  color: #333;
-}
-
-.navbar .navbar-nav .nav-link {
-  color: #333;
-  font-size: 1.1rem;
-  font-weight: 500;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.navbar .navbar-nav .nav-link:hover {
-  color: #007bff; /* Highlight color on hover */
-  transform: scale(1.05);
-}
-
-.navbar .btn-outline-primary {
-  border-color: #007bff;
-  color: #007bff;
-  font-weight: 500;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.navbar .btn-outline-primary:hover {
-  background-color: #007bff;
-  color: white;
-}
-
-@media (max-width: 991px) {
-  .navbar .navbar-nav .nav-link {
-    font-size: 1rem;
-  }
-
-  .navbar .navbar-toggler {
-    border-color: #007bff;
-  }
-
-  .navbar .navbar-toggler-icon {
-    background-color: #007bff;
-  }
-}
-
-/* Hero Section Styles */
 .hero-section {
-  position: relative;
-  font-family: "Montserrat", sans-serif;
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  overflow: hidden;
+    min-height: 100vh;
+    background: url('./../../assets/heroBackground_images.jpg') no-repeat center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Fade shadow bawah */
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+  background: linear-gradient(to bottom, rgba(18, 33, 64, 0) 0%, #122140 50%, #0F1B40 75%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .hero-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.5); /* Slight opacity for overlay */
-  z-index: 0;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.75) 100%);
+    pointer-events: none;
+    z-index: 1;
 }
 
-.hero-section .container {
-  position: relative;
-  z-index: 1;
-  color: #333;
+.phone-mockup {
+    position: relative;
+    display: inline-block;
 }
 
-.hero-section h1 {
-  font-size: 3rem;
-  color: #333;
-  font-weight: bolder;
-  text-transform: uppercase;
+.phone-img {
+    max-height: 500px;
+    border-radius: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.hero-section p {
-  font-size: 1.2rem;
-  color: #555;
-  font-weight: 300;
-  max-width: 600px;
-  margin: 20px auto;
+.phone-caption {
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    background: rgba(0, 0, 0, 0.75);
+    font-size: 0.9rem;
 }
 
-/* Add hover effect for list items (if needed) */
-.navbar-nav .nav-item:hover {
-  transform: scale(1.05);
-  transition: transform 0.2s ease;
+.text-gradient {
+    background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

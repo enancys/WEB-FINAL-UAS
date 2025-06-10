@@ -52,7 +52,8 @@ Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
-            'user_preference_id' => $user->userPreference?->id, 
+            'user_preference_id' => $user->userPreference?->id,
+            'seller' => $user->seller, 
         ]
     ]);
 });

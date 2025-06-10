@@ -10,33 +10,42 @@ const FoodPreferencesCard = ({ food }) => {
 
     return (
         <div className="col-md-4 mb-4">
-            <div className="card h-100 shadow-lg border-0 rounded-4" onClick={toggleModal}>
-                <img 
-                    src={imageUrl}
-                    className="card-img-top rounded-top-4"
-                    alt={food.name || 'Makanan'}
-                    style={{ height: '200px', objectFit: 'fit' }}
-                />
-                {console.log('Image path: ', food.image_url)}
+            <div className="card h-100 shadow-lg border-0 rounded-4 d-flex flex-row">
+                <div style={{ width: '180px', height: '100%', flexShrink: 0 }}>
+
+                    <img
+                        src={imageUrl}
+                        className="img-fluid h-100 w-100 rounded-start-4"
+                        alt={food.name || 'Makanan'}
+                        style={{ objectFit: 'cover' }}
+                    />
+                    {console.log('Image path: ', food.image_url)}
+                </div>
 
                 <div className="card-body d-flex flex-column justify-content-between">
                     <h5 className="card-title text-primary fw-bold">
                         {food.name}
                     </h5>
                     <p className="card-text">
-                        {food.description}
+                        {food.description.length > 100
+                            ? `${food.description.substring(0, 100)}...`
+                            : food.description}
                     </p>
                     <p className="card-text">
-                        <strong>Harga: </strong> Rp. {food.price}
+                        <strong>Price:</strong> Rp. {food.price}
                     </p>
-                    <a
-                        href={`https://wa.me/${food.restaurant?.phone.replace(/^0/, '62')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-success mt-2 d-block text-center rounded-pill shadow-sm hover-shadow-lg"
+                    <p className="card-text text-muted">
+                    </p>
+                    <button
+                        type="button"
+                        className="btn btn-primary mt-2 d-block text-center shadow-sm"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            toggleModal();
+                        }}
                     >
-                        Pesan via WhatsApp
-                    </a>
+                        See More
+                    </button>
                 </div>
             </div>
 
@@ -51,21 +60,21 @@ const FoodPreferencesCard = ({ food }) => {
                                 </button>
                             </div>
                             <div className="modal-body" style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
-                                <img 
-                                    src={imageUrl} 
-                                    alt={food.name} 
-                                    className="img-fluid w-100" 
+                                <img
+                                    src={imageUrl}
+                                    alt={food.name}
+                                    className="img-fluid w-100"
                                     style={{ objectFit: 'fit', maxHeight: '300px' }}
                                 />
                                 <p><strong>Deskripsi:</strong> {food.description}</p>
                                 <p><strong>Harga:</strong> Rp. {food.price}</p>
 
-                                
+
                                 <p>
-                                <strong>Restoran:</strong>{' '}
-                                <Link to={`/restaurant/${food.restaurant?.id}`} className="text-decoration-none text-primary">
-                                    {food.restaurant?.name || food.restaurant_name}
-                                </Link>
+                                    <strong>Restoran:</strong>{' '}
+                                    <Link to={`/restaurant/${food.restaurant?.id}`} className="text-decoration-none text-primary">
+                                        {food.restaurant?.name || food.restaurant_name}
+                                    </Link>
                                 </p>
                                 <p><strong>Restoran Rating:</strong> {food.restaurant?.rating || '0.0'}</p>
                                 <p><strong>Masakan:</strong> {food.cuisine?.name || food.cuisine_name}</p>
