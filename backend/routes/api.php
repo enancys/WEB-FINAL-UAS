@@ -53,7 +53,7 @@ Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
             'name' => $user->name,
             'email' => $user->email,
             'user_preference_id' => $user->userPreference?->id,
-            'seller' => $user->seller, 
+            'role' => $user->role, 
         ]
     ]);
 });
@@ -73,7 +73,7 @@ Route::post('/login', function (Request $request) {
     }
 
     return response()->json([
-        'token' => $user->createToken('YourAppName')->plainTextToken,
+        'token' => $user->createToken('WannaEAT')->plainTextToken,
         'user' => $user
     ]);
 });

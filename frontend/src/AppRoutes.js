@@ -13,6 +13,8 @@ import FoodPrefrencesList from './components/FoodPreferencesList.js';
 import { useContext, useEffect, useState } from 'react';
 import AboutMePage from './pages/user/AboutMePage.js';
 import RestaurantPage from './pages/user/RestaurantPage.js';
+import AccountSetting from './pages/user/accountSetting/AccountSetting.js';
+import SellerSetting from './pages/user/sellerSetting/SellerSetting.js';
 
 
 const AppRoutes = () => {
@@ -63,6 +65,10 @@ const AppRoutes = () => {
               element={ <FoodPrefrencesList id={userPreferenceId}/>} />
         <Route path="/restaurants" 
               element={ <RestaurantPage/>} />
+        <Route path="/account_settings/:id" 
+              element={ <AccountSetting/>} />
+        <Route path="/seller_settings" 
+              element={ <SellerSetting/>} />
 
 
 

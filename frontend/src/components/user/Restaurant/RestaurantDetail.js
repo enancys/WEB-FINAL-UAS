@@ -6,6 +6,8 @@ import ComponentNavbar from "../ComponentNavbar";
 import ComponentFooter from "../ComponentFooter";
 import bgHero from './../../../assets/heroBackground_images.jpg';
 import './RestaurantDetail.css';
+
+
 const RestaurantDetail = () => {
     const { id } = useParams();
     const [foods, setFoods] = useState([]);

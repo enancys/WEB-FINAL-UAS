@@ -24,7 +24,6 @@ const ComponentNavbar = () => {
     setDropdownOpen(!dropdownOpen);
   };
 console.log("User context data:", user);
-console.log("test user", user?.user_preference?.seller);
 
 
   return (
@@ -48,8 +47,8 @@ console.log("test user", user?.user_preference?.seller);
           <span className="nav-link" onClick={toggleDropdown}>Eat?</span>
           <ul className={`dropdown-menu ${dropdownOpen ? 'show' : ''}`} style={{
             backgroundColor: '#535caa',
-            borderColor: '#434a8a',
-            color: 'white'
+            color: 'white',
+            overflow: 'hidden'
           }}>
             <li><Link className="dropdown-item" to="/restaurants" onClick={toggleMenu}>Restaurant</Link></li>
             <li><Link className="dropdown-item" to="/foods" onClick={toggleMenu}>Food</Link></li>
@@ -61,9 +60,9 @@ console.log("test user", user?.user_preference?.seller);
         <Link to="/aboutMe" onClick={toggleMenu}>About</Link>
         {user ? (
           <div className="user-controls">
-            {user?.seller  === true && (
+            {user?.role  === "seller" && (
               <Link
-                to="/seller-dashboard" 
+              to={`/seller_settings`}
                 className="seller-btn"
                 onClick={toggleMenu}
                 title="Seller Dashboard"
@@ -73,7 +72,7 @@ console.log("test user", user?.user_preference?.seller);
             )}
 
             <Link
-              to="/setting"
+              to={`/account_settings/${user.id}`}
               className="user-settings-btn"
               onClick={toggleMenu}
               title="Pengaturan Akun"
