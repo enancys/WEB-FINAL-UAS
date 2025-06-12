@@ -19,7 +19,6 @@ const LandingPage = () => {
   return (
     <div>
       <ComponentNavbar />
-
       <ComponentHeroSection />
 
 

@@ -38,7 +38,8 @@ class RestaurantController extends Controller
             'cuisine_id' => 'nullable|integer|exists:cuisines,id',
             'rating' => 'nullable|numeric',
             'description' => 'nullable|string',
-            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'user_id' => 'nullable|integer|exists:users,id'
         ]);
 
         if ($request->hasFile('image_url')) {
@@ -86,7 +87,8 @@ class RestaurantController extends Controller
             'cuisine_id' => 'nullable|integer|exists:cuisines,id',
             'rating' => 'nullable|numeric',
             'description' => 'nullable|string',
-            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'user_id' => 'nullable|integer|exists:users,id'
         ]);
 
         if ($request->hasFile('image_url')) {

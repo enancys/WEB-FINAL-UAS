@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\UserFavoriteCuisineController;
 use App\Http\Controllers\Api\UserFavoriteIngredientController;
 use App\Http\Controllers\Api\UserPreferenceController;
 use App\Http\Controllers\AuthController;
+use App\Models\Restaurant;
 use App\Models\User;
 use App\Models\UserDietaryResctriction;
 use App\Models\UserFavoriteCategory;
@@ -102,3 +103,21 @@ Route::apiResource('user_favorite_category', UserFavoriteCategoryController::cla
 Route::apiResource('user_favorite_cuisines', UserFavoriteCuisineController::class);
 Route::apiResource('user_favorite_ingredients', UserFavoriteIngredientController::class);
 Route::get('recomendation/{id}', [FoodController::class, 'getRecomendation']);
+
+Route::get('/restaurant/user/{id}', function ($id) {
+    $restaurant = Restaurant::with('cuisine')->where('user_id', $id)->first();
+
+    if (!$restaurant) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Restaurant not found',
+            'restaurant' => null
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Data Berhasil Dimuat',
+        'restaurant' => $restaurant
+    ]);
+});

@@ -28,6 +28,7 @@ class RestaurantController extends Controller
             'rating' => 'required|numeric',
             'description' => 'required|string|max:255',
             'image_url' => 'required|string|max:255',
+            'user_id' => 'nullable|exists|users,id',
         ]);
 
         $restaurant = Restaurant::create([
@@ -39,7 +40,8 @@ class RestaurantController extends Controller
             'cuisine_id' => $request->cuisine_id,
             'rating' => $request->rating,
             'description' => $request->description,
-            'image_url' => $request->image_url,
+            'image_url' => $request->image_url, 
+            'user_id' => $request->user_id, 
 
         ]);
         return redirect('restaurants')->with('success', 'Restaurant Berhasil Dibuat');

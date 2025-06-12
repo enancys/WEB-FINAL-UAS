@@ -20,7 +20,8 @@ class Restaurant extends Model
         'cuisine_id',
         'rating',
         'description',
-        'image_url'
+        'image_url',
+        'user_id',
     ];
 
     public function food() {
@@ -29,5 +30,8 @@ class Restaurant extends Model
 
     public function cuisine() {
         return $this->belongsTo(Cuisine::class);
+    }
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 }

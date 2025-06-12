@@ -15,6 +15,8 @@ import AboutMePage from './pages/user/AboutMePage.js';
 import RestaurantPage from './pages/user/RestaurantPage.js';
 import AccountSetting from './pages/user/accountSetting/AccountSetting.js';
 import SellerSetting from './pages/user/sellerSetting/SellerSetting.js';
+import SellerMenu from './pages/user/sellerMenu/SellerMenu.js';
+import SellerAddRestaurant from './pages/user/sellerMenu/sellerAddRestaurant/sellerAddRestaurant.js';
 
 
 const AppRoutes = () => {
@@ -68,7 +70,9 @@ const AppRoutes = () => {
         <Route path="/account_settings/:id" 
               element={ <AccountSetting/>} />
         <Route path="/seller_settings" 
-              element={ <SellerSetting/>} />
+              element={ <SellerMenu/>} />
+        <Route path="/register-restaurant" 
+              element={ <SellerAddRestaurant/>} />
 
 
 
